@@ -1,7 +1,6 @@
 /**
  * Archivo: Errores.c
- * Versión: 1.0
- * Descripción: Centraliza la gestión de errores por parte del compilador
+ * Descripción: Centraliza la gestión de errores
  * Objetivos:
  *       - Mostrar el error correspondiente en función del valor de entrada.
  */

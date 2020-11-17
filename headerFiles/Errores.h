@@ -3,11 +3,10 @@
 
 /**
  * Archivo: Errores.h
- * Versión: 1.0
  * Descripción: Exporta la parte pública de Errores.c.
  * Objetivos:
  *       - Exportar las funciones del gestor de errores que necesitarán invocar
- *         el resto de partes del compilador.
+ *         el resto de partes del intérprete.
  */
 
 /**

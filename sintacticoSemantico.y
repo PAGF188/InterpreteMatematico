@@ -2,9 +2,9 @@
 %{
 #include <math.h>
 #include <stdio.h>
+#include "./headerFiles/TablaSimbolos.h"
 #include "./headerFiles/Errores.h"   /*centralización de la gestión de errores*/
 #include "./lex.yy.c"  /*demanda de componentes lexicos*/
-#include "./headerFiles/Definiciones.h"
 
 /*Declaramos las funciones para evitar los warning por implicit_declaration*/
 //para imprimir la salida tipificada
@@ -16,11 +16,12 @@ void ayudaGeneral();
 %union {
     double _double;
     int _int;
-    /*tipoelem *elementoTS;   Puntero a un elemento de la tabla de símbolos*/
+    tipoelem *elementoTS;   /*Puntero a un elemento de la tabla de símbolos (constante, variable, funcion)*/
 }
 
 /*TERMINALES*/
 %token <_double>    _NUM
+%token <elementoTS> _VAR _FUNCION _CONST   
 %right '='
 %left '-' '+'
 %left '*' '/'

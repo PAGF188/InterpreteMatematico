@@ -2,8 +2,8 @@ CC= gcc -Wall
 HEADER_FILES_DIR = ./headerFiles
 INCLUDES = -I $(HEADER_FILES_DIR)
 MAIN= matematica
-SRCS = Errores.c sintacticoSemantico.tab.c main.c 
-DEPS = $(HEADER_FILES_DIR)/Definiciones.h $(HEADER_FILES_DIR)/Errores.h
+SRCS = main.c Errores.c TablaSimbolos.c sintacticoSemantico.tab.c 
+DEPS = $(HEADER_FILES_DIR)/Definiciones.h $(HEADER_FILES_DIR)/Errores.h $(HEADER_FILES_DIR)/TablaSimbolos.h
 OBJS = $(SRCS:.c=.o)
 
 $(MAIN): $(OBJS)
