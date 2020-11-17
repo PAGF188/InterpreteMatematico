@@ -40,14 +40,14 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 
 %%
 
-{INTEGER_LITERAL}                                   {printf("\t100 <%s>", yytext);}
+{INTEGER_LITERAL}                                   {yylval._double = (strtod(yytext,NULL)); return(_NUM);}
 
 {INTEGER_LITERAL}{TERMINACIONES_INCORRECTAS_FI}     {   imprimeError(7,yylineno,yytext, mode);
                                                         /*desechamos toda la linea*/
                                                         char c;while((c = input()) !='\n');
                                                     }
 
-{FLOAT_LITERAL}                                     {printf("\t101 <%s>", yytext);}
+{FLOAT_LITERAL}                                     {yylval._double = (strtod(yytext,NULL)); return(_NUM);}
 
 {FLOAT_LITERAL}{TERMINACIONES_INCORRECTAS_FI}       {   imprimeError(8,yylineno,yytext, mode);
                                                         /*desechamos toda la linea*/
@@ -55,7 +55,7 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
                                                     }
 
     /*Identificadores y palabras reservadas!! (la tabla de símbolos resuelve el problema)*/        
-{IDENTIFICADOR}         {printf("\t104 <%s>",yytext);}    
+{IDENTIFICADOR}         ;  
 
 [ \t]+    /*ignoramos espacios*/;
 "\n"      | 
@@ -76,7 +76,7 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 "%"       |
 "^"       |
 "~"       |
-"="       printf("\t105 <%s>", yytext);
+"="       return((char) yytext[0]);
 
 "/+" {
     void comentario(){

@@ -45,11 +45,8 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    _INTEGER = 258,
-    _FLOAT = 259,
-    _STRING = 260,
-    _IDENTIFICADOR = 261,
-    NEG = 262
+    _NUM = 258,
+    NEG = 259
   };
 #endif
 
@@ -61,11 +58,9 @@ union YYSTYPE
 #line 9 "sintacticoSemantico.y" /* yacc.c:1909  */
 
     double _double;
-    int _int;
-    char * _string;
     /*tipoelem *elementoTS;   Puntero a un elemento de la tabla de símbolos*/
 
-#line 69 "sintacticoSemantico.tab.h" /* yacc.c:1909  */
+#line 64 "sintacticoSemantico.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

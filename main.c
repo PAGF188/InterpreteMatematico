@@ -8,14 +8,11 @@
  */
 
 #include "./headerFiles/Definiciones.h"
-#include "./lex.yy.c"
 int main(int argc, char *argv[])
 {
     
     //Invocamos al analizador sintáctico
-    //yyparse();
-    
-    yylex();
+    yyparse();
 
     //nota recoger los casos de error y finalización correcta
     return(0);

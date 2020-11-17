@@ -850,7 +850,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 43 "lexico.l"
-{printf("\t100 <%s>", yytext);}
+{yylval._double = (strtod(yytext,NULL)); return(_NUM);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
@@ -863,7 +863,7 @@ YY_RULE_SETUP
 case 3:
 YY_RULE_SETUP
 #line 50 "lexico.l"
-{printf("\t101 <%s>", yytext);}
+{yylval._double = (strtod(yytext,NULL)); return(_NUM);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
@@ -877,7 +877,7 @@ YY_RULE_SETUP
 case 5:
 YY_RULE_SETUP
 #line 58 "lexico.l"
-{printf("\t104 <%s>",yytext);}    
+;  
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
@@ -942,7 +942,7 @@ case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
 #line 79 "lexico.l"
-printf("\t105 <%s>", yytext);
+return((char) yytext[0]);
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
