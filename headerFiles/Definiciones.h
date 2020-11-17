@@ -55,12 +55,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 9 "sintacticoSemantico.y" /* yacc.c:1909  */
+#line 16 "sintacticoSemantico.y" /* yacc.c:1909  */
 
     double _double;
+    int _int;
     /*tipoelem *elementoTS;   Puntero a un elemento de la tabla de símbolos*/
 
-#line 64 "sintacticoSemantico.tab.h" /* yacc.c:1909  */
+#line 65 "sintacticoSemantico.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

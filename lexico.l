@@ -40,14 +40,14 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 
 %%
 
-{INTEGER_LITERAL}                                   {yylval._double = (strtod(yytext,NULL)); return(_NUM);}
+{INTEGER_LITERAL}                                   {yylval._double = (atof(yytext)); return(_NUM);}
 
 {INTEGER_LITERAL}{TERMINACIONES_INCORRECTAS_FI}     {   imprimeError(7,yylineno,yytext, mode);
                                                         /*desechamos toda la linea*/
                                                         char c;while((c = input()) !='\n');
                                                     }
 
-{FLOAT_LITERAL}                                     {yylval._double = (strtod(yytext,NULL)); return(_NUM);}
+{FLOAT_LITERAL}                                     {yylval._double = (atof(yytext)); return(_NUM);}
 
 {FLOAT_LITERAL}{TERMINACIONES_INCORRECTAS_FI}       {   imprimeError(8,yylineno,yytext, mode);
                                                         /*desechamos toda la linea*/
@@ -56,6 +56,8 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 
     /*Identificadores y palabras reservadas!! (la tabla de símbolos resuelve el problema)*/        
 {IDENTIFICADOR}         ;  
+
+    /*Caracteres que componen en si mismos un componente léxico*/
 
 [ \t]+    /*ignoramos espacios*/;
 "\n"      | 
@@ -76,8 +78,10 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 "%"       |
 "^"       |
 "~"       |
+"?"       |
 "="       return((char) yytext[0]);
 
+    /*Obviamos un comentario de tipo anidado*/
 "/+" {
     void comentario(){
         char c1 = '+';
@@ -85,13 +89,14 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
         do{
             c1=c2;
             c2 = input();
+            /*Si llegamos al final y no encontramos cierre -> error*/
             if(c1==(char)0 || c2==(char)0){
                 imprimeError(10,yylineno,NULL,mode);
                 return;
             }
             if(c1=='/' && c2=='+'){
                 unput(c2);
-                comentario();
+                comentario();  //llamada recursiva
             }
         }while(c1!='+' || c2!='/');
     }
@@ -100,10 +105,11 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 {COMENTARIO_LINEA}  ;
 {COMENTARIO_BLOQUE} ;
 
-. { /*regla por defecto*/
+. { /*regla por defecto -> caracter no reconocido por analizador léxico (no debería existir)*/
         if(isascii((int)yytext[0])){
             imprimeError(6,yylineno,yytext,mode);
         }
+        /*desechamos línea*/
         char c;
         while((c = input()) !='\n');
     }
@@ -112,4 +118,11 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 
 %%
 
-
+/**
+ * @param m. Diferenciar entre imprimir o no nº de línea al llamar a función error.
+ * 0 -> No se imprime el número de línea en el que se encontró el error. Para interacción por teclado.
+ * 1 -> Imprimer el número de línea del error. Para interacción desde un archivo.
+ */
+void cambiarModo(int m){
+    mode=m;
+}
