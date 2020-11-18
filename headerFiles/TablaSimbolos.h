@@ -75,6 +75,9 @@ tipoelem * insertarElemento(char* lexema, int tipo);
  * @objective: eliminar la tabla de símbolos liberando toda la memoria.
  */
 
+//-1 fallo
+int modificar(tipoelem E, double valor);
+
 void _suprimir(tipoelem E);
 
 void destruirTablaSimbolos();

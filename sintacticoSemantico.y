@@ -47,7 +47,10 @@ linea:
 exp:    
         _NUM                {$$=$1;}
         |_VAR               {$$ = $1->value.var;}
-        | _VAR '=' exp      {$$ = $3; $1->value.var = $3;}
+        | _VAR '=' exp      {
+                                $$ = $3; 
+                                modificar(*$1, $3);
+                            }
         | exp '+' exp       {$$ = $1 + $3;}
         | exp '-' exp       {$$ = $1 - $3;}
         | exp '*' exp       {$$ = $1 * $3;}

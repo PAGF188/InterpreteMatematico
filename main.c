@@ -47,8 +47,6 @@ void cargarElementosIniciales(){
         insertarReservados(e);
     }
 
-    //funciones
-    char * funciones_nombres[6] = {"sin", "cos", "atan", "ln", "exp", "sqrt"};
     
 }
 

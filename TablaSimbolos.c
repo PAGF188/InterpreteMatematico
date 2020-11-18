@@ -123,10 +123,16 @@ void _suprimir(tipoelem E){
     suprimir(&tablaSimbolos, E);
 }
 
-void modificar(tipoelem E){
-
+int modificar(tipoelem E, double valor){
+    tipoelem e;
+    e.lexema = E.lexema;
+    e.componenteLexico = E.componenteLexico;
+    e.value.var = valor;
+    tipoelem aux;
+    _buscar_nodo(e.lexema, &aux);
+    _suprimir(aux);
+    insertar(&tablaSimbolos, e);
 }
-
 
 
 /////////////////// IMPLEMENTACIÓN FUNCIONES PRIVADAS
