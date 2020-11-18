@@ -65,7 +65,7 @@ void imprime_tabla(abb A){
     if (!es_vacio(A)){
         imprime_tabla(izq(A));
         info(A, &E);
-        printf("%s, %d\n", E.lexema, E.componenteLexico);
+        printf("%s, %d, %lf\n", E.lexema, E.componenteLexico,E.value.var);
         imprime_tabla(der(A));
     }
 }
@@ -90,27 +90,43 @@ int insertarReservados(tipoelem E){
     return(1);
 }
 
-int insertarVariable(char* lexema){
-    //Si ya está el nodo en la tabla de símbolos puede ser constante, funcion o variable,
-    //independientemente de ello devolvemos su componente léxico.
+tipoelem * insertarElemento(char* lexema, int tipo){
+    tipoelem *nodo=NULL;
+    nodo = (tipoelem *) malloc(sizeof(tipoelem));
+    //Si ya está el nodo en la tabla de símbolos
     if(es_miembro_clave(tablaSimbolos,lexema)){
-        tipoelem nodo;
-        buscar_nodo(tablaSimbolos,lexema,&nodo);
-        return(nodo.componenteLexico);
+        buscar_nodo(tablaSimbolos,lexema,nodo);
+        //free(lexema);
     }
     //si no está es un identificador -> lo insertamos y devolvemos id asignado.
     else{
-        tipoelem aux;
-        aux.lexema = lexema; 
-        aux.componenteLexico = _VAR;
-        insertar(&tablaSimbolos,aux);
-        return(_VAR);
+        nodo->lexema = lexema; 
+        nodo->componenteLexico = tipo;
+        insertar(&tablaSimbolos,*nodo);
     }
+    imprimirArbol();
+    return(nodo);
 }
 
 void imprimirArbol(){
     imprime_tabla(tablaSimbolos);
 }
+
+int _buscar_nodo(char * cl, tipoelem *nodo){
+    if(!es_miembro_clave(tablaSimbolos, cl))
+        return(-1);
+    buscar_nodo(tablaSimbolos, cl, nodo);
+    return(0);
+}
+
+void _suprimir(tipoelem E){
+    suprimir(&tablaSimbolos, E);
+}
+
+void modificar(tipoelem E){
+
+}
+
 
 
 /////////////////// IMPLEMENTACIÓN FUNCIONES PRIVADAS

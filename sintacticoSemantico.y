@@ -40,20 +40,21 @@ input:  /*vacio*/
 linea: 
         '\n'
         | '?' '\n'  {ayudaGeneral(); nuevaLinea();}
-        | exp '\n' {printf("\x1b[31mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea();}
+        | exp '\n' {printf("\x1b[31mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea(); imprimirArbol();}
         | error '\n' {yyerrok;}
 ;
 
 exp:    
-        
-        _NUM {$$=$1;}
-        | exp '+' exp {$$ = $1 + $3;}
-        | exp '-' exp {$$ = $1 - $3;}
-        | exp '*' exp {$$ = $1 * $3;}
-        | exp '/' exp {$$ = $1 / $3;}
+        _NUM                {$$=$1;}
+        |_VAR               {$$ = $1->value.var;}
+        | _VAR '=' exp      {$$ = $3; $1->value.var = $3;}
+        | exp '+' exp       {$$ = $1 + $3;}
+        | exp '-' exp       {$$ = $1 - $3;}
+        | exp '*' exp       {$$ = $1 * $3;}
+        | exp '/' exp       {$$ = $1 / $3;}
         | '-' exp %prec NEG {$$=-$2;}
-        | exp '^' exp   {$$ = pow($1,$3);}
-        | '(' exp ')'   {$$=$2;}
+        | exp '^' exp       {$$ = pow($1,$3);}
+        | '(' exp ')'       {$$=$2;}
 ;
 
 %%

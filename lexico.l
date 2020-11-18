@@ -54,8 +54,20 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
                                                         char c;while((c = input()) !='\n');
                                                     }
 
-    /*Identificadores y palabras reservadas!! (la tabla de símbolos resuelve el problema)*/        
-{IDENTIFICADOR}         ;  
+    /*constantes, variables o funciones (la tabla de símbolos resuelve el problema)*/        
+{IDENTIFICADOR}         {   
+                            tipoelem aux;
+                            //si el elemento ya esta insertado
+                            if(_buscar_nodo(yytext, &aux)!=-1){
+                                yylval.elementoTS = &aux; 
+                                return(aux.componenteLexico);  
+                            //si el elemento no existe en TS
+                            }else{
+                                tipoelem *e = insertarElemento(strdup(yytext), _VAR);
+                                yylval.elementoTS = e;  
+                                return(e->componenteLexico);
+                            }
+                        }  
 
     /*Caracteres que componen en si mismos un componente léxico*/
 

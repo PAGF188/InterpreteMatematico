@@ -43,9 +43,7 @@ void cargarElementosIniciales(){
         tipoelem e;
         e.lexema = const_nombres[i];
         e.componenteLexico = _CONST;
-        e.tipo = 1;
         e.value.var = const_valores[i];
-        e.value.funcion_ptr = NULL;
         insertarReservados(e);
     }
 
@@ -63,7 +61,6 @@ int main(int argc, char *argv[]){
     //cargamos los elementos iniciales en TS
     cargarElementosIniciales();
 
-    imprimirArbol();
     
     presentacion();
     //Invocamos al analizador sintáctico

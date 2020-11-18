@@ -875,85 +875,97 @@ YY_RULE_SETUP
                                                         char c;while((c = input()) !='\n');
                                                     }
 	YY_BREAK
-/*Identificadores y palabras reservadas!! (la tabla de símbolos resuelve el problema)*/        
+/*constantes, variables o funciones (la tabla de símbolos resuelve el problema)*/        
 case 5:
 YY_RULE_SETUP
 #line 58 "lexico.l"
-;  
+{   
+                            tipoelem aux;
+                            //si el elemento ya esta insertado
+                            if(_buscar_nodo(yytext, &aux)!=-1){
+                                yylval.elementoTS = &aux; 
+                                return(aux.componenteLexico);  
+                            //si el elemento no existe en TS
+                            }else{
+                                tipoelem *e = insertarElemento(strdup(yytext), _VAR);
+                                yylval.elementoTS = e;  
+                                return(e->componenteLexico);
+                            }
+                        }  
 	YY_BREAK
 /*Caracteres que componen en si mismos un componente léxico*/
 case 6:
 YY_RULE_SETUP
-#line 62 "lexico.l"
+#line 74 "lexico.l"
 /*ignoramos espacios*/;
 	YY_BREAK
 case 7:
 /* rule 7 can match eol */
-#line 64 "lexico.l"
+#line 76 "lexico.l"
 case 8:
 /* rule 8 can match eol */
-#line 65 "lexico.l"
+#line 77 "lexico.l"
 case 9:
 /* rule 9 can match eol */
-#line 66 "lexico.l"
+#line 78 "lexico.l"
 case 10:
 /* rule 10 can match eol */
-#line 67 "lexico.l"
+#line 79 "lexico.l"
 case 11:
 /* rule 11 can match eol */
-#line 68 "lexico.l"
+#line 80 "lexico.l"
 case 12:
 /* rule 12 can match eol */
-#line 69 "lexico.l"
+#line 81 "lexico.l"
 case 13:
 /* rule 13 can match eol */
-#line 70 "lexico.l"
+#line 82 "lexico.l"
 case 14:
 /* rule 14 can match eol */
-#line 71 "lexico.l"
+#line 83 "lexico.l"
 case 15:
 /* rule 15 can match eol */
-#line 72 "lexico.l"
+#line 84 "lexico.l"
 case 16:
 /* rule 16 can match eol */
-#line 73 "lexico.l"
+#line 85 "lexico.l"
 case 17:
 /* rule 17 can match eol */
-#line 74 "lexico.l"
+#line 86 "lexico.l"
 case 18:
 /* rule 18 can match eol */
-#line 75 "lexico.l"
+#line 87 "lexico.l"
 case 19:
 /* rule 19 can match eol */
-#line 76 "lexico.l"
+#line 88 "lexico.l"
 case 20:
 /* rule 20 can match eol */
-#line 77 "lexico.l"
+#line 89 "lexico.l"
 case 21:
 /* rule 21 can match eol */
-#line 78 "lexico.l"
+#line 90 "lexico.l"
 case 22:
 /* rule 22 can match eol */
-#line 79 "lexico.l"
+#line 91 "lexico.l"
 case 23:
 /* rule 23 can match eol */
-#line 80 "lexico.l"
+#line 92 "lexico.l"
 case 24:
 /* rule 24 can match eol */
-#line 81 "lexico.l"
+#line 93 "lexico.l"
 case 25:
 /* rule 25 can match eol */
-#line 82 "lexico.l"
+#line 94 "lexico.l"
 case 26:
 /* rule 26 can match eol */
 YY_RULE_SETUP
-#line 82 "lexico.l"
+#line 94 "lexico.l"
 return((char) yytext[0]);
 	YY_BREAK
 /*Obviamos un comentario de tipo anidado*/
 case 27:
 YY_RULE_SETUP
-#line 85 "lexico.l"
+#line 97 "lexico.l"
 {
     void comentario(){
         char c1 = '+';
@@ -977,18 +989,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 105 "lexico.l"
+#line 117 "lexico.l"
 ;
 	YY_BREAK
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 106 "lexico.l"
+#line 118 "lexico.l"
 ;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 108 "lexico.l"
+#line 120 "lexico.l"
 { /*regla por defecto -> caracter no reconocido por analizador léxico (no debería existir)*/
         if(isascii((int)yytext[0])){
             imprimeError(6,yylineno,yytext,mode);
@@ -999,15 +1011,15 @@ YY_RULE_SETUP
     }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 117 "lexico.l"
+#line 129 "lexico.l"
 {   return(0);  }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 119 "lexico.l"
+#line 131 "lexico.l"
 ECHO;
 	YY_BREAK
-#line 1011 "lex.yy.c"
+#line 1023 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2018,7 +2030,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 119 "lexico.l"
+#line 131 "lexico.l"
 
 
 

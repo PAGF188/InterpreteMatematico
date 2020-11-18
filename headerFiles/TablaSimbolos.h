@@ -69,12 +69,18 @@ int insertarReservados(tipoelem E);
  * @param E, lexema (identificador o palabra reservada).
  * @return int. Devuelve el valor entero asociado al componente léxico de "lexema".
  */
-int insertarVariable(char* lexema);
+tipoelem * insertarElemento(char* lexema, int tipo);
 
 /**
  * @name destruirTablaSimbolos
  * @objective: eliminar la tabla de símbolos liberando toda la memoria.
  */
+
+//-1 no existe
+int _buscar_nodo(char * cl, tipoelem *nodo);
+
+void _suprimir(tipoelem E);
+
 void destruirTablaSimbolos();
 
 //borrar
