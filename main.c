@@ -60,7 +60,7 @@ int main(int argc, char *argv[]){
 
     //cargamos los elementos iniciales en TS
     cargarElementosIniciales();
-
+    imprimirArbol();
     
     presentacion();
     //Invocamos al analizador sintáctico

@@ -40,7 +40,7 @@ input:  /*vacio*/
 linea: 
         '\n'
         | '?' '\n'  {ayudaGeneral(); nuevaLinea();}
-        | exp '\n' {printf("\x1b[31mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea(); imprimirArbol();}
+        | exp '\n' {printf("\x1b[31mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea(); printf("\n");imprimirArbol();}
         | error '\n' {yyerrok;}
 ;
 

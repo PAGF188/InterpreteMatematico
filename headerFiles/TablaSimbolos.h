@@ -35,7 +35,6 @@
 typedef struct {
     char* lexema;                   //lexema (nombre de la constante, funcion o variable)
     int componenteLexico;           //_FUNCION | _VAR | _CONST
-    int tipo;                       // 0->int, 1-> double
     union{
         double var;                 //valor de la constante o variable
         double (* funcion_ptr)();   //puntero a la función a ejecutar
@@ -59,15 +58,15 @@ void crearTablaSimbolos();
 int insertarReservados(tipoelem E);
 
 /**
- * @name insertarVariable.
- * A este nivel aun no sabemos su valor. Lo va a insertar el lexico
+ * @name insertarElemento.
+ * A este nivel aun no sabemos su valor.
  * @objective: Comportamiento:
- *           1) Si el lexema a insertar ya está dentro de la TS devolver entero 
- *             asociado al tipo.
- *           2) Si el lexema no está insertado en la tabla, insertarlo (como variable) y devolver entero
- *             asociado al tipo "variable"
- * @param E, lexema (identificador o palabra reservada).
- * @return int. Devuelve el valor entero asociado al componente léxico de "lexema".
+ *           1) Si el lexema a insertar ya está dentro de la TS devolver el puntero a su nodo de TS
+ *           2) Si el lexema no está insertado en la tabla, insertarlo (como variable) y devolver puntero
+ *              a nodo TS creado  
+ * @param lexema, lexema identificador
+ * @param tipo, componente lexico.
+ * @return tipoelem. Devuelve el nodo en el que se encuentra el elemento introducido
  */
 tipoelem * insertarElemento(char* lexema, int tipo);
 
@@ -75,9 +74,6 @@ tipoelem * insertarElemento(char* lexema, int tipo);
  * @name destruirTablaSimbolos
  * @objective: eliminar la tabla de símbolos liberando toda la memoria.
  */
-
-//-1 no existe
-int _buscar_nodo(char * cl, tipoelem *nodo);
 
 void _suprimir(tipoelem E);
 

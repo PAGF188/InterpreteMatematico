@@ -1239,7 +1239,7 @@ yyreduce:
 
   case 6:
 #line 43 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {printf("\x1b[31mOut[%d]: %.10g\n\x1b[0m", yylineno-1,(yyvsp[-1]._double));nuevaLinea(); imprimirArbol();}
+    {printf("\x1b[31mOut[%d]: %.10g\n\x1b[0m", yylineno-1,(yyvsp[-1]._double));nuevaLinea(); printf("\n");imprimirArbol();}
 #line 1244 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 

@@ -96,15 +96,15 @@ tipoelem * insertarElemento(char* lexema, int tipo){
     //Si ya está el nodo en la tabla de símbolos
     if(es_miembro_clave(tablaSimbolos,lexema)){
         buscar_nodo(tablaSimbolos,lexema,nodo);
-        //free(lexema);
+        free(lexema);
     }
     //si no está es un identificador -> lo insertamos y devolvemos id asignado.
     else{
         nodo->lexema = lexema; 
         nodo->componenteLexico = tipo;
+        nodo->value.var = 0.0;
         insertar(&tablaSimbolos,*nodo);
     }
-    imprimirArbol();
     return(nodo);
 }
 
