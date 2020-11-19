@@ -35,6 +35,7 @@
 typedef struct {
     char* lexema;                   //lexema (nombre de la constante, funcion o variable)
     int componenteLexico;           //_FUNCION | _VAR | _CONST
+    char inicializada;               //0-> variable no inicializada, 1 si inicializada
     union{
         double var;                 //valor de la constante o variable
         double (* funcion_ptr)();   //puntero a la función a ejecutar
@@ -80,7 +81,7 @@ tipoelem * insertarElemento(char* lexema, int tipo);
  */
 void modificar(tipoelem *E, double valor);
 
-void _suprimir(tipoelem E);
+void eliminar(tipoelem E);
 
 /**
  * @name destruirTablaSimbolos

@@ -103,6 +103,7 @@ tipoelem * insertarElemento(char* lexema, int tipo){
         nodo->lexema = lexema; 
         nodo->componenteLexico = tipo;
         nodo->value.var = 0.0;
+        nodo->inicializada = 0;
         insertar(&tablaSimbolos,*nodo);
     }
     return(nodo);
@@ -119,7 +120,7 @@ int _buscar_nodo(char * cl, tipoelem *nodo){
     return(0);
 }
 
-void _suprimir(tipoelem E){
+void eliminar(tipoelem E){
     suprimir(&tablaSimbolos, E);
 }
 
@@ -128,7 +129,8 @@ void modificar(tipoelem *E, double valor){
     e.lexema = E->lexema;
     e.componenteLexico = E->componenteLexico;
     e.value.var = valor;
-    _suprimir(*E);
+    e.inicializada = 1;
+    eliminar(*E);
     insertar(&tablaSimbolos, e);
 }
 

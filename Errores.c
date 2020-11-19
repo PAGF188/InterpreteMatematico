@@ -54,6 +54,18 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
         else
             printf("Lexical Error! Falta cierre del comentario: +/\n");
         break;
+    case 11:
+        if(mode==1)
+            printf("(linea %d) Semantic Error! La variable %s no fue inicializada\n",linea, lexema);
+        else
+            printf("Semantic Error! La variable %s no fue inicializada\n",lexema);
+        break;
+    case 12:
+        if(mode==1)
+            printf("(linea %d) Semantic Error! No puedes asignar un valor a la constate %s\n",linea, lexema);
+        else
+            printf("Semantic Error! No puedes asignar un valor a la constate %s\n",lexema);
+        break;
     default:
         break;
     }

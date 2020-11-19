@@ -21,6 +21,8 @@
  *                (*) 8-> flotante mal formado.
  *                (*) 9-> falta la comilla de cierre del String
  *                (*) 10-> falta cierre de comentario +/
+ *                (*) 11-> se uso una variable sin inicializar
+ *                (*) 12 -> se intento asigar un valor a una constante
  * @param linea del error.
  * @param lexema
  * @param mode, 0 no imprimir linea, 1 imprimir linea.
