@@ -50,6 +50,12 @@ linea:
 
 exp:    
         _NUM                {$$=$1;}
+        | _VAR '=' exp      {
+                                /*Notar que al lado izquierdo de la expresión SOLO puede aparecer
+                                una variable. NUNCA una constante o un número*/
+                                modificar($1, $3);
+                                $$=$3;
+                            }
         |_VAR               {
                                 /*Una expresión NUNCA podrá derivar en una variable si esta
                                 no está inicializada. Error*/
@@ -59,14 +65,9 @@ exp:
                                     yyerror($1->lexema);
                                     YYERROR;
                                 }
-                                $$ = $1->value.var;}
-        |_CONST             {$$ = $1->value.var;}
-        | _VAR '=' exp      {
-                                /*Notar que al lado izquierdo de la expresión SOLO puede aparecer
-                                una variable. NUNCA una constante o un número*/
-                                $$ = $3;
-                                modificar($1, $3);
+                                $$ = $1->value.var;
                             }
+        |_CONST             {$$ = $1->value.var;}
         | exp '+' exp       {$$ = $1 + $3;}
         | exp '-' exp       {$$ = $1 - $3;}
         | exp '*' exp       {$$ = $1 * $3;}
