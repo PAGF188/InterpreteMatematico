@@ -71,7 +71,15 @@ exp:
         | exp '+' exp       {$$ = $1 + $3;}
         | exp '-' exp       {$$ = $1 - $3;}
         | exp '*' exp       {$$ = $1 * $3;}
-        | exp '/' exp       {$$ = $1 / $3;}
+        | exp '/' exp       {
+                                /*Error al intentar dividir entre 0*/
+                                if($3==0){
+                                    codigoError = 12;
+                                    yyerror("");
+                                    YYERROR;
+                                }
+                                $$ = $1 / $3;
+                            }
         | '-' exp %prec NEG {$$=-$2;}
         | exp '^' exp       {$$ = pow($1,$3);}
         | '(' exp ')'       {$$=$2;}

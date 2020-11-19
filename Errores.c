@@ -62,9 +62,9 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
         break;
     case 12:
         if(mode==1)
-            printf("(linea %d) Semantic Error! No puedes asignar un valor a la constate %s\n",linea, lexema);
+            printf("(linea %d) Semantic Error! Intento de división entre 0 \n",linea);
         else
-            printf("Semantic Error! No puedes asignar un valor a la constate %s\n",lexema);
+            printf("Semantic Error! Intento de división entre 0 \n");
         break;
     default:
         break;
