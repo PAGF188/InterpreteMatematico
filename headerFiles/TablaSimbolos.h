@@ -58,27 +58,34 @@ void crearTablaSimbolos();
 int insertarReservados(tipoelem E);
 
 /**
- * @name insertarElemento.
+ * @name insertarElemento. (solo para VARIABLES)
  * A este nivel aun no sabemos su valor.
  * @objective: Comportamiento:
- *           1) Si el lexema a insertar ya está dentro de la TS devolver el puntero a su nodo de TS
- *           2) Si el lexema no está insertado en la tabla, insertarlo (como variable) y devolver puntero
+ *           1) Si la variable a insertar ya está dentro de la TS devolver el puntero a su nodo de TS
+ *           2) Si la variable no está insertada en la tabla, insertarlo (como variable) y devolver puntero
  *              a nodo TS creado  
  * @param lexema, lexema identificador
- * @param tipo, componente lexico.
+ * @param tipo, componente lexico (no sería estrictamente necesario).
  * @return tipoelem. Devuelve el nodo en el que se encuentra el elemento introducido
  */
 tipoelem * insertarElemento(char* lexema, int tipo);
+
+
+/**
+ * @name modificar
+ * @objective: Modificar una varibale o constante de la tabla de símbolos. 
+ * Se sobreescribe su valor por @param valor.
+ * @param tipoelem referencia el elemento de la TS a modificar.
+ * @param valor. Nuevo valor a insertar.
+ */
+void modificar(tipoelem *E, double valor);
+
+void _suprimir(tipoelem E);
 
 /**
  * @name destruirTablaSimbolos
  * @objective: eliminar la tabla de símbolos liberando toda la memoria.
  */
-
-//-1 fallo
-int modificar(tipoelem E, double valor);
-
-void _suprimir(tipoelem E);
 
 void destruirTablaSimbolos();
 

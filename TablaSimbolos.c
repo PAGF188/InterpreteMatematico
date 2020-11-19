@@ -123,14 +123,12 @@ void _suprimir(tipoelem E){
     suprimir(&tablaSimbolos, E);
 }
 
-int modificar(tipoelem E, double valor){
+void modificar(tipoelem *E, double valor){
     tipoelem e;
-    e.lexema = E.lexema;
-    e.componenteLexico = E.componenteLexico;
+    e.lexema = E->lexema;
+    e.componenteLexico = E->componenteLexico;
     e.value.var = valor;
-    tipoelem aux;
-    _buscar_nodo(e.lexema, &aux);
-    _suprimir(aux);
+    _suprimir(*E);
     insertar(&tablaSimbolos, e);
 }
 

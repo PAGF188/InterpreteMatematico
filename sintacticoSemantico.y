@@ -47,9 +47,15 @@ linea:
 exp:    
         _NUM                {$$=$1;}
         |_VAR               {$$ = $1->value.var;}
+        |_CONST             {$$ = $1->value.var;}
         | _VAR '=' exp      {
-                                $$ = $3; 
-                                modificar(*$1, $3);
+                                /*Notar que al lado derecho de la expresión SOLO puede aparecer
+                                una variable. NUNCA una constante*/
+                                /*gestión del error: que aparezca a la derecha una var sin inicializar*/
+                                if(){
+                                    
+                                }
+                                $$ = $3;modificar($1, $3);
                             }
         | exp '+' exp       {$$ = $1 + $3;}
         | exp '-' exp       {$$ = $1 - $3;}
