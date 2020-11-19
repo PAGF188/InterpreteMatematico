@@ -382,8 +382,8 @@ static void yynoreturn yy_fatal_error (yyconst char* msg  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 31
-#define YY_END_OF_BUFFER 32
+#define YY_NUM_RULES 30
+#define YY_END_OF_BUFFER 31
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -393,13 +393,13 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[75] =
     {   0,
-        0,    0,   32,   30,    6,    7,   22,   13,   15,   16,
-       21,   11,   19,    8,   30,   14,    1,   20,   10,   26,
-        9,   25,    5,   17,   18,   23,   12,   24,    6,    3,
-        0,   27,   28,    2,    3,    1,    2,    3,    1,    1,
+        0,    0,   31,   29,    6,    7,   22,   13,   15,   16,
+       21,   11,   19,    8,   29,   14,    1,   20,   10,   25,
+        9,    5,    5,   17,   18,   23,   12,   24,    6,    3,
+        0,   26,   27,    2,    3,    1,    2,    3,    1,    1,
         0,    3,    1,    5,    4,    4,    3,    3,    0,    3,
-        0,    0,    0,   28,    3,    0,    3,    0,    1,    0,
-        3,    0,    0,    0,   29,    4,    0,    3,    3,    0,
+        0,    0,    0,   27,    3,    0,    3,    0,    1,    0,
+        3,    0,    0,    0,   28,    4,    0,    3,    3,    0,
         3,    0,    3,    0
     } ;
 
@@ -526,10 +526,10 @@ static yyconst flex_int16_t yy_chk[228] =
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static yyconst flex_int32_t yy_rule_can_match_eol[32] =
+static yyconst flex_int32_t yy_rule_can_match_eol[31] =
     {   0,
 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-    1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,     };
+    1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -947,17 +947,14 @@ case 24:
 #line 85 "lexico.l"
 case 25:
 /* rule 25 can match eol */
-#line 86 "lexico.l"
-case 26:
-/* rule 26 can match eol */
 YY_RULE_SETUP
-#line 86 "lexico.l"
+#line 85 "lexico.l"
 return((char) yytext[0]);
 	YY_BREAK
 /*Obviamos un comentario de tipo anidado*/
-case 27:
+case 26:
 YY_RULE_SETUP
-#line 89 "lexico.l"
+#line 88 "lexico.l"
 {
     void comentario(){
         char c1 = '+';
@@ -979,20 +976,20 @@ YY_RULE_SETUP
     comentario();
 }
 	YY_BREAK
+case 27:
+YY_RULE_SETUP
+#line 108 "lexico.l"
+;
+	YY_BREAK
 case 28:
+/* rule 28 can match eol */
 YY_RULE_SETUP
 #line 109 "lexico.l"
 ;
 	YY_BREAK
 case 29:
-/* rule 29 can match eol */
 YY_RULE_SETUP
-#line 110 "lexico.l"
-;
-	YY_BREAK
-case 30:
-YY_RULE_SETUP
-#line 112 "lexico.l"
+#line 111 "lexico.l"
 { /*regla por defecto -> caracter no reconocido por analizador léxico (no debería existir)*/
         if(isascii((int)yytext[0])){
             imprimeError(6,yylineno,yytext,mode);
@@ -1003,15 +1000,15 @@ YY_RULE_SETUP
     }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 121 "lexico.l"
+#line 120 "lexico.l"
 {   return(0);  }
 	YY_BREAK
-case 31:
+case 30:
 YY_RULE_SETUP
-#line 123 "lexico.l"
+#line 122 "lexico.l"
 ECHO;
 	YY_BREAK
-#line 1015 "lex.yy.c"
+#line 1012 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2022,7 +2019,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 123 "lexico.l"
+#line 122 "lexico.l"
 
 
 

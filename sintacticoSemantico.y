@@ -25,7 +25,7 @@ int codigoError=-1;   /*para hacerselo visible a la función de gestión de erro
 
 /*TERMINALES*/
 %token <_double>    _NUM
-%token <elementoTS> _VAR _FUNCION _CONST   
+%token <elementoTS> _VAR _FUNCION _CONST _COMANDO  
 %right '='
 %left '-' '+'
 %left '*' '/'
@@ -43,9 +43,9 @@ input:  /*vacio*/
 
 linea: 
         '\n'
-        | '?' '\n'  {ayudaGeneral(); nuevaLinea();}
         | exp '\n' {printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea(); /*printf("\n");imprimirArbol();*/}
         | error '\n' {yyerrok;}
+        | _COMANDO '\n'  { $1->value.funcion_ptr(); nuevaLinea();}
 ;
 
 exp:    
@@ -92,10 +92,6 @@ exp:
 void nuevaLinea(){
     printf("____________________________________________________________\n\n");
     printf("In [%d]:  ", yylineno);
-}
-
-void ayudaGeneral(){
-    printf("En el futuro aqui ira la ayuda general\n");
 }
 
 void yyerror(char *s){

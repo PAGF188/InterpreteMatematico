@@ -34,11 +34,11 @@
  */
 typedef struct {
     char* lexema;                   //lexema (nombre de la constante, funcion o variable)
-    int componenteLexico;           //_FUNCION | _VAR | _CONST
+    int componenteLexico;           //_FUNCION | _VAR | _CONST | _COMANDO
     char inicializada;               //0-> variable no inicializada, 1 si inicializada
     union{
         double var;                 //valor de la constante o variable
-        double (* funcion_ptr)();   //puntero a la función a ejecutar
+        double (* funcion_ptr)();   //puntero a la función a ejecutar (o comando)
     }value;
     
 }tipoelem;
@@ -89,6 +89,12 @@ void eliminar(tipoelem E);
  */
 
 void destruirTablaSimbolos();
+
+/**
+ * @name consultarVariables
+ * @objective: imprime todos los elementos de la TS que comparten en componente léxico _VAR
+ */
+void consultarVariables();
 
 //borrar
 void imprimirArbol();

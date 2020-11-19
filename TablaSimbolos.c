@@ -55,9 +55,10 @@ void buscar_nodo(abb A, tipoclave cl, tipoelem *nodo);
 // eliminar el arbol y limpia la memoria.
 void destruir_arbol(abb *A);
 //Las dos siguientes permiten eliminar un nodo concreto del árbol.
-//Sin embargo, en esta práctica no se usan. Quedan hechas por si se necesitan en la siguiente.
 void suprimir(abb *A, tipoelem E);
 tipoelem _suprimir_min(abb *A);
+//Recorre el árbol imprimiendo todos los elementos con componente léxico _VAR
+void imprime_variables(abb A);
 
 // BORRAR!!!!!! Función de comprobación. Imprime toda la tabla de símbolos. Recorrido inorden del árbol.
 void imprime_tabla(abb A){
@@ -134,6 +135,9 @@ void modificar(tipoelem *E, double valor){
     insertar(&tablaSimbolos, e);
 }
 
+void consultarVariables(){
+    imprime_variables(tablaSimbolos);
+}
 
 /////////////////// IMPLEMENTACIÓN FUNCIONES PRIVADAS
 int _comparar_claves(tipoclave cl1, tipoclave cl2){
@@ -265,4 +269,14 @@ tipoelem _suprimir_min(abb *A) {
 	}
 }
 
-
+void imprime_variables(abb A){
+    tipoelem E;
+    if (!es_vacio(A)){
+        imprime_variables(izq(A));
+        info(A, &E);
+        if(E.componenteLexico == _VAR){
+            printf("%s, %.10g\n", E.lexema, E.value.var);
+        }
+        imprime_variables(der(A));
+    }
+}

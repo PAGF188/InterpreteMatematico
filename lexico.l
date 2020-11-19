@@ -25,7 +25,7 @@ FLOAT               ({INTEGER}".")|({INTEGER}"."{INTEGER})|({INTEGER}"."{INTEGER
 DECIMAL_EXPONENT    ((e\+)|(E\+)|(e-)|(E-)|(e)|(E))(_?[0-9][0-9_]*)
 
 /*IDENTIFICADORES (variables, constantes o funciones)*/
-IDENTIFICADOR       [_A-Za-z][A-Za-z0-9_]*
+IDENTIFICADOR       [_A-Za-z][A-Za-z0-9_]*|\?
 
 
 /*COMENTARIOS*/
@@ -82,7 +82,6 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 "%"       |
 "^"       |
 "~"       |
-"?"       |
 "="       return((char) yytext[0]);
 
     /*Obviamos un comentario de tipo anidado*/

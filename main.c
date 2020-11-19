@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "./headerFiles/TablaSimbolos.h"
 #include "./headerFiles/Definiciones.h"
+#include "comandos.c"
 
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862
 #define E 2.71828182845904523536028747135266249775724709369995957496696762772407663035354
@@ -47,7 +48,29 @@ void cargarElementosIniciales(){
         insertarReservados(e);
     }
 
-    
+    //funciones
+
+    //salir
+    tipoelem _salir;
+    _salir.lexema = "salir";
+    _salir.componenteLexico = _COMANDO;
+    _salir.value.funcion_ptr = salir;
+    insertarReservados(_salir);
+
+    //ayuda
+    tipoelem _ayuda;
+    _ayuda.lexema = "?";
+    _ayuda.componenteLexico = _COMANDO;
+    _ayuda.value.funcion_ptr = ayuda;
+    insertarReservados(_ayuda);
+
+    //workspace
+    tipoelem _workspace;
+    _workspace.lexema = "workspace";
+    _workspace.componenteLexico = _COMANDO;
+    _workspace.value.funcion_ptr = workspace;
+    insertarReservados(_workspace);
+
 }
 
 int main(int argc, char *argv[]){
@@ -64,5 +87,6 @@ int main(int argc, char *argv[]){
     //Invocamos al analizador sintáctico
     yyparse();
     //nota recoger los casos de error y finalización correcta
+    destruirTablaSimbolos();
     return(0);
 }
