@@ -60,7 +60,11 @@ linea:
                                     /*printf("\n");imprimirArbol();*/
                                 }
         | error '\n'            {yyerrok;}
-        | _COMANDO '\n'         { $1->value.funcion_ptr(); nuevaLinea();}
+        | _COMANDO '\n'         { 
+                                    /*si no son delete, print*/
+                                    if(strcmp("print", $1->lexema)!=0 && strcmp("delete", $1->lexema)!=0)
+                                        $1->value.funcion_ptr(); nuevaLinea();
+                                }
         | _COMANDO textoImprimir '\n' {
                                     /*esta derivación solo es valida sin _COMANDO es "print" */
                                     if(strcmp("print", $1->lexema)==0){
@@ -87,21 +91,14 @@ linea:
 ;
 
 textoImprimir:
-                textoImprimir exp      {   
-                                            /*cast double to char* y concatenación con textoImprimir*/
-                                            char* _s = (char *)malloc(sizeof(char)*50); /*definimos un tamaño maximo*/
-	                                        sprintf(_s,"%.10g",$2);
-                                            $$=strcat($1,_s);
-                                            free(_s);
-                                        }
-                | textoImprimir _STRING   {$$=strcat($1,$2); free($2);}
-                | exp                  {   
+                exp                     {   
                                             /*cast double to char* */
                                             char* _s = (char *)malloc(sizeof(char)*50); /*definimos un tamaño maximo*/
 	                                        sprintf(_s,"%.10g",$1);
                                             $$ = _s;
                                         }
                 | _STRING               {$$=$1;}
+                | textoImprimir _STRING {$$=strcat($1,$2); free($2);}         
 ;
 
 exp:    
@@ -117,9 +114,9 @@ exp:
                                 no está inicializada. Error*/
                                 if($1->inicializada == 0){
                                     eliminar(*$1);
-                                    free($1);
                                     codigoError = 11;
                                     yyerror($1->lexema);
+                                    free($1);
                                     YYERROR;
                                 }
                                 $$ = $1->value.var;

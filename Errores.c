@@ -56,9 +56,9 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
         break;
     case 11:
         if(mode==1)
-            printf("(linea %d) Semantic Error! La variable %s no fue inicializada\n",linea, lexema);
+            printf("(linea %d) Semantic Error! La variable <%s> no fue inicializada\n",linea, lexema);
         else
-            printf("Semantic Error! La variable %s no fue inicializada\n",lexema);
+            printf("Semantic Error! La variable <%s> no fue inicializada\n",lexema);
         break;
     case 12:
         if(mode==1)
@@ -68,9 +68,9 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
         break;
     case 13:
         if(mode==1)
-            printf("(linea %d) Semantic Error! Modificador invalido para el comando %s \n",linea, lexema);
+            printf("(linea %d) Semantic Error! Modificador invalido para el comando <%s> \n",linea, lexema);
         else
-            printf("Semantic Error! Modificador invalido para el comando %s \n", lexema);
+            printf("Semantic Error! Modificador invalido para el comando <%s> \n", lexema);
         break;
     default:
         break;
