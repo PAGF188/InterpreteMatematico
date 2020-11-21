@@ -1,0 +1,5 @@
+a=100
+c=a+b
+workspace
+g
++23 12

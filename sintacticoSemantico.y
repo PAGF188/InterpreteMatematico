@@ -36,7 +36,8 @@ int echo = 1;
 %token <_string>    _ARCHIVO
 %token <_string>    _STRING
 %token <_double>    _NUM
-%token <elementoTS> _VAR _FUNCION _CONST _COMANDO  
+%token <elementoTS> _VAR _FUNCION _CONST _COMANDO 
+%token <_int>       _EOF 
 /*el comando delete se trata por separado para poder diferenciar entre print a, en donde imprimimos
 el contenido de la variable a. Y delete a, en donde la eliminamos */
 %token <elementoTS> _DELETE 
@@ -58,9 +59,12 @@ input:  /*vacio*/
 
 linea: 
         '\n'
-        | exp '\n'              {
-                                    if(echo)
-                                        printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea(); 
+        | exp '\n'              {   /*mdoe=0, estamos leyendo datos de teclado. Mostrar interfaz gráfica*/
+                                    if(mode==0){
+                                        if(echo)
+                                            printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);
+                                        nuevaLinea(); 
+                                    }
                                     /*printf("\n");imprimirArbol();*/
                                 }
         | error '\n'            {yyerrok;}
@@ -68,10 +72,11 @@ linea:
                                     /*si no son delete, print*/
                                     if(strcmp("print", $1->lexema)!=0 && strcmp("load", $1->lexema)!=0)
                                         $1->value.funcion_ptr(); 
+                                    if(mode==0)    
                                         nuevaLinea();
                                 }
         | _COMANDO argumento '\n' {
-                                    /*esta derivación solo es valida con los comandos: print, " */
+                                    /*esta derivación solo es valida con los comandos: print, */
                                     if(strcmp("print", $1->lexema)==0 || strcmp("load", $1->lexema)==0){
                                         $1->value.funcion_ptr($2);
                                         free($2);
@@ -152,14 +157,23 @@ void nuevaLinea(){
 }
 
 void yyerror(char *s){
-    printf("\x1b[31mOut[%d]: ", yylineno-1);
+    printf("\x1b[31m");
+
+    //formatear la salida para interacción por teclado/archivo
+    if(mode==0){
+        printf("Out[%d]: ", yylineno-1);
+    }
+    //Si el error es sintáctico/semántico
     if(codigoError==-1){
+        if(mode==1)
+            printf("\t(linea %d) ", yylineno);
         printf("%s\n",s);
     }
     else{
-        imprimeError(codigoError,yylineno, s, 0);
+        imprimeError(codigoError,yylineno, s, mode);
         codigoError=-1;
     }
     printf("\x1b[0m");
-    nuevaLinea();
+    if(mode==0)
+        nuevaLinea();
 }

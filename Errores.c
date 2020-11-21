@@ -26,49 +26,49 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
         break;
     case 6:
         if(mode==1)
-            printf("(linea %d) Lexical Error! Caracter extraño: %s\n",linea,lexema);
+            printf("\t(linea %d) Lexical Error! Caracter extraño: %s\n",linea,lexema);
         else
             printf("Lexical Error! Caracter extraño: %s\n",lexema);
         break;
     case 7:
         if(mode==1)
-            printf("(linea %d) Lexical Error! Entero mal formado: %s\n",linea, lexema);
+            printf("\t(linea %d) Lexical Error! Entero mal formado: %s\n",linea, lexema);
         else
             printf("Lexical Error! Entero mal formado: %s\n",lexema);
         break;
     case 8:
         if(mode==1)
-            printf("(linea %d) Lexical Error! Flotante mal formado: %s\n",linea, lexema);
+            printf("\t(linea %d) Lexical Error! Flotante mal formado: %s\n",linea, lexema);
         else
             printf("Lexical Error! Flotante mal formado: %s\n", lexema);
         break;
      case 9:
      if(mode==1)
-        printf("(linea %d) Lexical Error! Falta la \" de cierre del String: \" \n",linea);
+        printf("\t(linea %d) Lexical Error! Falta la \" de cierre del String: \" \n",linea);
     else
          printf("Lexical Error! Falta la \" de cierre del String: \" \n");
         break;
     case 10:
         if(mode==1)
-            printf("(linea %d) Lexical Error! Falta cierre del comentario: +/\n",linea);
+            printf("\t(linea %d) Lexical Error! Falta cierre del comentario: +/\n",linea);
         else
             printf("Lexical Error! Falta cierre del comentario: +/\n");
         break;
     case 11:
         if(mode==1)
-            printf("(linea %d) Semantic Error! La variable <%s> no fue inicializada\n",linea, lexema);
+            printf("\t(linea %d) Semantic Error! La variable <%s> no fue inicializada\n",linea, lexema);
         else
             printf("Semantic Error! La variable <%s> no fue inicializada\n",lexema);
         break;
     case 12:
         if(mode==1)
-            printf("(linea %d) Semantic Error! Intento de división entre 0 \n",linea);
+            printf("\t(linea %d) Semantic Error! Intento de división entre 0 \n",linea);
         else
             printf("Semantic Error! Intento de división entre 0 \n");
         break;
     case 13:
         if(mode==1)
-            printf("(linea %d) Semantic Error! Modificador invalido para el comando <%s> \n",linea, lexema);
+            printf("\t(linea %d) Semantic Error! Modificador invalido para el comando <%s> \n",linea, lexema);
         else
             printf("Semantic Error! Modificador invalido para el comando <%s> \n", lexema);
         break;

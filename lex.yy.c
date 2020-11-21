@@ -585,13 +585,16 @@ char *yytext;
 #include "./headerFiles/Errores.h"
 
 /*numero maximo de archivos a almacenar en la pila de archivos "por cargar"*/
-#define MAX_INCLUDE_DEPTH 5 
+#define MAX_INCLUDE_DEPTH 10 
 /*pila de archivos a cargar*/
 YY_BUFFER_STATE include_stack[MAX_INCLUDE_DEPTH];
 /*puntero al elemento de la pila en el que estamos*/
 int include_stack_ptr = 0;
 
-int mode=0; //0-> no se imprime nº linea. 1 si.
+//0-> estamos leyendo datos de teclado
+//1-> estamos leyendo datos de archivos.
+int mode=0; 
+
 /*PATRONES PARA ENTEROS. Se aceptan sufijos.*/
 /*PATRONES PARA FLOTANTES. Se aceptan sufijos. Se acepta notación científica.*/
 /*IDENTIFICADORES (variables, constantes o funciones)*/
@@ -602,7 +605,7 @@ int mode=0; //0-> no se imprime nº linea. 1 si.
 /*Comentario anidado no constituye un lenguaje regular -> no se puede resolver con autómata finito*/
 /*solución-> rutina en c*/
 /*TERMINACIONES INCORRECTAS PARA FLOTANTES Y INTEGERS (pueden existir más!!)*/
-#line 606 "lex.yy.c"
+#line 609 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -820,10 +823,10 @@ YY_DECL
 		}
 
 	{
-#line 55 "lexico.l"
+#line 58 "lexico.l"
 
 
-#line 827 "lex.yy.c"
+#line 830 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -892,12 +895,12 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 57 "lexico.l"
+#line 60 "lexico.l"
 {yylval._double = (atof(yytext)); return(_NUM);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 59 "lexico.l"
+#line 62 "lexico.l"
 {   imprimeError(7,yylineno,yytext, mode);
                                                         /*desechamos toda la linea*/
                                                         char c;while((c = input()) !='\n');
@@ -905,12 +908,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 64 "lexico.l"
+#line 67 "lexico.l"
 {yylval._double = (atof(yytext)); return(_NUM);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 66 "lexico.l"
+#line 69 "lexico.l"
 {   imprimeError(8,yylineno,yytext, mode);
                                                         /*desechamos toda la linea*/
                                                         char c;while((c = input()) !='\n');
@@ -919,7 +922,7 @@ YY_RULE_SETUP
 /*constantes, variables o funciones (la tabla de símbolos resuelve el problema)*/        
 case 5:
 YY_RULE_SETUP
-#line 72 "lexico.l"
+#line 75 "lexico.l"
 {   
                             tipoelem *e = insertarElemento(strdup(yytext), _VAR);
                             yylval.elementoTS = e;  
@@ -929,84 +932,84 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 78 "lexico.l"
+#line 81 "lexico.l"
 {yylval._string = strdup(yytext); return(_STRING);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 79 "lexico.l"
+#line 82 "lexico.l"
 {yylval._string = strdup(yytext); return(_ARCHIVO);}
 	YY_BREAK
 /*Caracteres que componen en si mismos un componente léxico*/
 case 8:
 YY_RULE_SETUP
-#line 82 "lexico.l"
+#line 85 "lexico.l"
 /*ignoramos espacios*/;
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
-#line 84 "lexico.l"
+#line 87 "lexico.l"
 case 10:
 /* rule 10 can match eol */
-#line 85 "lexico.l"
+#line 88 "lexico.l"
 case 11:
 /* rule 11 can match eol */
-#line 86 "lexico.l"
+#line 89 "lexico.l"
 case 12:
 /* rule 12 can match eol */
-#line 87 "lexico.l"
+#line 90 "lexico.l"
 case 13:
 /* rule 13 can match eol */
-#line 88 "lexico.l"
+#line 91 "lexico.l"
 case 14:
 /* rule 14 can match eol */
-#line 89 "lexico.l"
+#line 92 "lexico.l"
 case 15:
 /* rule 15 can match eol */
-#line 90 "lexico.l"
+#line 93 "lexico.l"
 case 16:
 /* rule 16 can match eol */
-#line 91 "lexico.l"
+#line 94 "lexico.l"
 case 17:
 /* rule 17 can match eol */
-#line 92 "lexico.l"
+#line 95 "lexico.l"
 case 18:
 /* rule 18 can match eol */
-#line 93 "lexico.l"
+#line 96 "lexico.l"
 case 19:
 /* rule 19 can match eol */
-#line 94 "lexico.l"
+#line 97 "lexico.l"
 case 20:
 /* rule 20 can match eol */
-#line 95 "lexico.l"
+#line 98 "lexico.l"
 case 21:
 /* rule 21 can match eol */
-#line 96 "lexico.l"
+#line 99 "lexico.l"
 case 22:
 /* rule 22 can match eol */
-#line 97 "lexico.l"
+#line 100 "lexico.l"
 case 23:
 /* rule 23 can match eol */
-#line 98 "lexico.l"
+#line 101 "lexico.l"
 case 24:
 /* rule 24 can match eol */
-#line 99 "lexico.l"
+#line 102 "lexico.l"
 case 25:
 /* rule 25 can match eol */
-#line 100 "lexico.l"
+#line 103 "lexico.l"
 case 26:
 /* rule 26 can match eol */
-#line 101 "lexico.l"
+#line 104 "lexico.l"
 case 27:
 /* rule 27 can match eol */
 YY_RULE_SETUP
-#line 101 "lexico.l"
+#line 104 "lexico.l"
 return((char) yytext[0]);
 	YY_BREAK
 /*Obviamos un comentario de tipo anidado*/
 case 28:
 YY_RULE_SETUP
-#line 104 "lexico.l"
+#line 107 "lexico.l"
 {
     void comentario(){
         char c1 = '+';
@@ -1030,18 +1033,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 124 "lexico.l"
+#line 127 "lexico.l"
 ;
 	YY_BREAK
 case 30:
 /* rule 30 can match eol */
 YY_RULE_SETUP
-#line 125 "lexico.l"
+#line 128 "lexico.l"
 ;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 127 "lexico.l"
+#line 130 "lexico.l"
 { /*regla por defecto -> caracter no reconocido por analizador léxico (no debería existir)*/
         if(isascii((int)yytext[0])){
             imprimeError(6,yylineno,yytext,mode);
@@ -1052,23 +1055,33 @@ YY_RULE_SETUP
     }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 136 "lexico.l"
+#line 139 "lexico.l"
 {   
+            /*en principio aqui nunca se debería entrar porque en include_stack el primer
+            puntero referencia a stdin (la entrada por teclado). SOlo al insertar control+d*/
             if(--include_stack_ptr<0){
                 yyterminate();
             }  
             else{
                 yy_delete_buffer(YY_CURRENT_BUFFER);
                 yy_switch_to_buffer(include_stack[include_stack_ptr]);
+                /*si el puntero a include_stack es 0, 
+                estamos tomando datos de stdin -> mostrar resultados por pantalla*/
+                if(include_stack_ptr==0){
+                    mode=0;
+                    yylineno = 1;
+                    printf("____________________________________________________________\n\n");
+                    printf("In [%d]:  ", yylineno);
+                }
             }
         }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 146 "lexico.l"
+#line 159 "lexico.l"
 ECHO;
 	YY_BREAK
-#line 1072 "lex.yy.c"
+#line 1085 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2079,15 +2092,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 146 "lexico.l"
+#line 159 "lexico.l"
 
 
-
-/**
- * @param m. Diferenciar entre imprimir o no nº de línea al llamar a función error.
- * 0 -> No se imprime el número de línea en el que se encontró el error. Para interacción por teclado.
- * 1 -> Imprimer el número de línea del error. Para interacción desde un archivo.
- */
-void cambiarModo(int m){
-    mode=m;
-}

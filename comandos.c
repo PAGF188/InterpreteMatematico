@@ -18,6 +18,8 @@ void* ayuda(){
 
 //imprimir todas las variables almacenadas en la TS
 void* workspace(){
+    if(mode==1)
+        printf("\t");
     printf("\x1b[34m[Workspace]:\n");
     consultarVariables();
     return((void*)0);
@@ -44,14 +46,26 @@ void* echooff(){
  * Strings, ej "hola"
  */
 void* print(char *s){
-    printf("\x1b[34mOut[%d]: ", yylineno-1);
-    for(int i=0; i<strlen(s);i++){
-        if(*(s+i) !='"')
-            printf("%c", *(s+i));
+    //Si la interacción actual es por teclado, mostramos los print con un formato especifico.
+    if(mode==0){
+        printf("\x1b[34mOut[%d]: ", yylineno-1);
+        for(int i=0; i<strlen(s);i++){
+            if(*(s+i) !='"')
+                printf("%c", *(s+i));
+        }
+        printf("\x1b[0m\n");
+        nuevaLinea();
+    }//si la lectura se hace desde un archivo, no mostramos cabeceras.
+    else{
+        printf("\t\x1b[34m");
+        for(int i=0; i<strlen(s);i++){
+            if(*(s+i) !='"')
+                printf("%c", *(s+i));
+        }
+        printf("\x1b[0m\n");
     }
-    printf("\x1b[0m\n");
-    nuevaLinea();
     return((void*)0);
+
 }
 
 //eliminar un elemento (normalmente variable) de la TS.
@@ -71,6 +85,8 @@ void* delete(tipoelem *elemento){
 
 //cargar un archivo indicado por *path
 void* cargar(char *path){
+    echo=0;
+    mode=1;
     if(include_stack_ptr >= MAX_INCLUDE_DEPTH){
         //cambair a yyerror-> numero maximo de cargas recursivas
         printf("No puedes cargar recursivamente mas ficheros");
@@ -89,6 +105,9 @@ void* cargar(char *path){
         }else{
             yy_switch_to_buffer(yy_create_buffer(yyin, YY_BUF_SIZE));
             BEGIN(INITIAL);
+            printf("\n\x1b[33m<*>Cargando archivo <%s>\x1b[0m\n", path);
+            //reseteamos numeor de lineas
+            yylineno=0;
         }
     }
     return((void*)0);

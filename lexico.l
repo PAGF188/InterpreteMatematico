@@ -5,13 +5,16 @@
 #include "./headerFiles/Errores.h"
 
 /*numero maximo de archivos a almacenar en la pila de archivos "por cargar"*/
-#define MAX_INCLUDE_DEPTH 5 
+#define MAX_INCLUDE_DEPTH 10 
 /*pila de archivos a cargar*/
 YY_BUFFER_STATE include_stack[MAX_INCLUDE_DEPTH];
 /*puntero al elemento de la pila en el que estamos*/
 int include_stack_ptr = 0;
 
-int mode=0; //0-> no se imprime nº linea. 1 si.
+//0-> estamos leyendo datos de teclado
+//1-> estamos leyendo datos de archivos.
+int mode=0; 
+
 %}
 
 %option noyywrap
@@ -134,22 +137,23 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
     }
 
 <<EOF>> {   
+            /*en principio aqui nunca se debería entrar porque en include_stack el primer
+            puntero referencia a stdin (la entrada por teclado). SOlo al insertar control+d*/
             if(--include_stack_ptr<0){
                 yyterminate();
             }  
             else{
                 yy_delete_buffer(YY_CURRENT_BUFFER);
                 yy_switch_to_buffer(include_stack[include_stack_ptr]);
+                /*si el puntero a include_stack es 0, 
+                estamos tomando datos de stdin -> mostrar resultados por pantalla*/
+                if(include_stack_ptr==0){
+                    mode=0;
+                    yylineno = 1;
+                    printf("____________________________________________________________\n\n");
+                    printf("In [%d]:  ", yylineno);
+                }
             }
         }
 
 %%
-
-/**
- * @param m. Diferenciar entre imprimir o no nº de línea al llamar a función error.
- * 0 -> No se imprime el número de línea en el que se encontró el error. Para interacción por teclado.
- * 1 -> Imprimer el número de línea del error. Para interacción desde un archivo.
- */
-void cambiarModo(int m){
-    mode=m;
-}
