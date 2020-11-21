@@ -74,7 +74,7 @@ tipoelem * insertarElemento(char* lexema, int tipo);
 
 /**
  * @name modificar
- * @objective: Modificar una varibale o constante de la tabla de símbolos. 
+ * @objective: Modificar una varibale de la tabla de símbolos. 
  * Se sobreescribe su valor por @param valor.
  * @param tipoelem referencia el elemento de la TS a modificar.
  * @param valor. Nuevo valor a insertar.

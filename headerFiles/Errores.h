@@ -23,6 +23,7 @@
  *                (*) 10-> falta cierre de comentario +/
  *                (*) 11-> se uso una variable sin inicializar
  *                (*) 12 -> intento de deivisón entre 0
+ *                (*) 13 -> el comando no acepta modificadores
  * @param linea del error.
  * @param lexema
  * @param mode, 0 no imprimir linea, 1 imprimir linea.

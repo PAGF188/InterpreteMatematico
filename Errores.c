@@ -68,9 +68,9 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
         break;
     case 13:
         if(mode==1)
-            printf("(linea %d) Semantic Error! Este comando no acepta modificadores. \n",linea);
+            printf("(linea %d) Semantic Error! Modificador invalido para el comando %s \n",linea, lexema);
         else
-            printf("Semantic Error! Este comando no acepta modificadores.\n");
+            printf("Semantic Error! Modificador invalido para el comando %s \n", lexema);
         break;
     default:
         break;

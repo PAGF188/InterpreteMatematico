@@ -62,13 +62,25 @@ linea:
         | error '\n'            {yyerrok;}
         | _COMANDO '\n'         { $1->value.funcion_ptr(); nuevaLinea();}
         | _COMANDO textoImprimir '\n' {
+                                    /*esta derivación solo es valida sin _COMANDO es "print" */
                                     if(strcmp("print", $1->lexema)==0){
                                         $1->value.funcion_ptr($2);
                                         free($2);
                                     }
                                     else{
                                         codigoError = 13;
-                                        yyerror("");
+                                        yyerror($1->lexema);
+                                        YYERROR;
+                                    }
+                                }
+        | _COMANDO _VAR '\n'    {
+                                    /*esta derivación solo es valida sin _COMANDO es "delete" */
+                                    if(strcmp("delete", $1->lexema)==0){
+                                        $1->value.funcion_ptr($2);
+                                    }
+                                    else{
+                                        codigoError = 13;
+                                        yyerror($1->lexema);
                                         YYERROR;
                                     }
                                 }
@@ -105,6 +117,7 @@ exp:
                                 no está inicializada. Error*/
                                 if($1->inicializada == 0){
                                     eliminar(*$1);
+                                    free($1);
                                     codigoError = 11;
                                     yyerror($1->lexema);
                                     YYERROR;

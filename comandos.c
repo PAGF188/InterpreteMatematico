@@ -43,3 +43,10 @@ void* print(char *s){
     return((void*)0);
 }
 
+void* delete(tipoelem *elemento){
+    eliminar(*elemento);
+    free(elemento);
+    nuevaLinea();
+    return((void*)0);
+}
+
