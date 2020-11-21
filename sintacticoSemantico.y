@@ -75,28 +75,18 @@ linea:
 ;
 
 textoImprimir:
-                textoImprimir _VAR      {
-                                            if($2->inicializada == 0){
-                                                eliminar(*$2);
-                                                codigoError = 11;
-                                                yyerror($2->lexema);
-                                                YYERROR;
-                                            }
+                textoImprimir exp      {   
+                                            /*cast double to char* y concatenación con textoImprimir*/
                                             char* _s = (char *)malloc(sizeof(char)*50); /*definimos un tamaño maximo*/
-	                                        sprintf(_s,"%.10g",$2->value.var);
+	                                        sprintf(_s,"%.10g",$2);
                                             $$=strcat($1,_s);
                                             free(_s);
                                         }
                 | textoImprimir _STRING   {$$=strcat($1,$2); free($2);}
-                | _VAR                  {
-                                            if($1->inicializada == 0){
-                                                eliminar(*$1);
-                                                codigoError = 11;
-                                                yyerror($1->lexema);
-                                                YYERROR;
-                                            }
+                | exp                  {   
+                                            /*cast double to char* */
                                             char* _s = (char *)malloc(sizeof(char)*50); /*definimos un tamaño maximo*/
-	                                        sprintf(_s,"%.10g",$1->value.var);
+	                                        sprintf(_s,"%.10g",$1);
                                             $$ = _s;
                                         }
                 | _STRING               {$$=$1;}
