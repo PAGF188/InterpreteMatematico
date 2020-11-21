@@ -34,7 +34,11 @@ void* echooff(){
 
 void* print(char *s){
     printf("\x1b[34mOut[%d]: ", yylineno-1);
-    printf("%s\n \x1b[0m",s);
+    for(int i=0; i<strlen(s);i++){
+        if(*(s+i) !='"')
+            printf("%c", *(s+i));
+    }
+    printf("\x1b[0m\n");
     nuevaLinea();
     return((void*)0);
 }
