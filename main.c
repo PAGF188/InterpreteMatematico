@@ -14,7 +14,11 @@
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862
 #define E 2.71828182845904523536028747135266249775724709369995957496696762772407663035354
 
-
+/*Tipo de dato para encapsular la infocmación de los comandos que es estática*/
+typedef struct {
+    char * nombre;
+    void* (* funcion_ptr)();   //puntero a la función a ejecutar (o comando)
+}comandos;
 
 //Para mostrar de forma bonita el inicio del programa.
 //Inicamos la existencia de la funcion ayuda (?)
@@ -48,29 +52,23 @@ void cargarElementosIniciales(){
         insertarReservados(e);
     }
 
-    //funciones
+    //comandos
+    comandos _comandos[] = {
+        {"salir", salir},
+        {"?", ayuda},
+        {"workspace", workspace},
+        {"echoon", echoon},
+        {"echooff", echooff},
+        {0, 0}
+    };
 
-    //salir
-    tipoelem _salir;
-    _salir.lexema = "salir";
-    _salir.componenteLexico = _COMANDO;
-    _salir.value.funcion_ptr = salir;
-    insertarReservados(_salir);
-
-    //ayuda
-    tipoelem _ayuda;
-    _ayuda.lexema = "?";
-    _ayuda.componenteLexico = _COMANDO;
-    _ayuda.value.funcion_ptr = ayuda;
-    insertarReservados(_ayuda);
-
-    //workspace
-    tipoelem _workspace;
-    _workspace.lexema = "workspace";
-    _workspace.componenteLexico = _COMANDO;
-    _workspace.value.funcion_ptr = workspace;
-    insertarReservados(_workspace);
-
+    for (int i = 0; _comandos[i].nombre != 0; i++){
+        tipoelem aux;
+        aux.lexema = _comandos[i].nombre;
+        aux.componenteLexico = _COMANDO;
+        aux.value.funcion_ptr = _comandos[i].funcion_ptr;
+        insertarReservados(aux);
+    }
 }
 
 int main(int argc, char *argv[]){

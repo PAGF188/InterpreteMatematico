@@ -4,18 +4,31 @@
 //mantenemos el double para que concida con el tipo definido en TS.h
 //pero ignoramos valor de retorno.
 
-double salir(){
+void* salir(){
     destruirTablaSimbolos();
     exit(0);
 }
 
-double ayuda(){
+void* ayuda(){
     printf("Aqui irá la ayuda\n");
-    return(0.0);
+    return((void*)0);
 }
 
-double workspace(){
+void* workspace(){
+    printf("\x1b[34m[Workspace]:\n");
     consultarVariables();
-    return(0.0);
+    return((void*)0);
+}
+
+void *echoon(){
+    echo=1;
+    printf("\x1b[34mEco activado\n \x1b[0m");
+    return((void*)0);
+}
+
+void *echooff(){
+    echo=0;
+    printf("\x1b[34mEco desactivado\n \x1b[0m");
+    return((void*)0);
 }
 

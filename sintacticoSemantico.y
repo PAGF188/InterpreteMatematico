@@ -14,7 +14,13 @@ void ayudaGeneral();
 //funcion de error
 void yyerror(char *s);
 
-int codigoError=-1;   /*para hacerselo visible a la función de gestión de errores*/
+/*para hacerselo visible a la función de gestión de errores*/
+int codigoError=-1;   
+
+/*Si echo=0, no mostrar dialogo de resultado.
+  Si echo=1, si mostrarlo.
+*/
+int echo = 1;
 %}
 
 %union {
@@ -43,7 +49,10 @@ input:  /*vacio*/
 
 linea: 
         '\n'
-        | exp '\n' {printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea(); /*printf("\n");imprimirArbol();*/}
+        | exp '\n' {
+                        if(echo)
+                            printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea(); 
+                        /*printf("\n");imprimirArbol();*/}
         | error '\n' {yyerrok;}
         | _COMANDO '\n'  { $1->value.funcion_ptr(); nuevaLinea();}
 ;

@@ -275,8 +275,9 @@ void imprime_variables(abb A){
         imprime_variables(izq(A));
         info(A, &E);
         if(E.componenteLexico == _VAR){
-            printf("%s, %.10g\n", E.lexema, E.value.var);
+            printf("\x1b[34m\t-> %s = %.10g\n", E.lexema, E.value.var);
         }
+        printf("\x1b[0m");
         imprime_variables(der(A));
     }
 }
