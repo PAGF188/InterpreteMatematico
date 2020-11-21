@@ -4,7 +4,7 @@
 #include "./headerFiles/Definiciones.h"
 #include "./headerFiles/Errores.h"
 
-int mode=0; //0-> lectura terminal, 1 lectura archivo  
+int mode=0; //0-> no se imprime nº linea. 1 si.
 %}
 %option noyywrap
 %option yylineno

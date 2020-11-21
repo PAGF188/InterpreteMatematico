@@ -34,7 +34,7 @@
  */
 typedef struct {
     char* lexema;                   //lexema (nombre de la constante, funcion o variable)
-    int componenteLexico;           //_FUNCION | _VAR | _CONST | _COMANDO
+    int componenteLexico;           //_FUNCION | _VAR | _CONST | _COMANDO  (auxiliar _DELETE)
     char inicializada;               //0-> variable no inicializada, 1 si inicializada
     union{
         double var;                 //valor de la constante o variable

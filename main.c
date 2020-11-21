@@ -61,6 +61,7 @@ void cargarElementosIniciales(){
         {"echooff", echooff},
         {"print", print},
         {"delete", delete},
+        {"load", cargar},
         {0, 0}
     };
 

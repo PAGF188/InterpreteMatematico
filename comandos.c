@@ -1,37 +1,48 @@
 #include <stdlib.h>
 #include "sintacticoSemantico.tab.c"
 #include "TablaSimbolos.h"
-//mantenemos el double para que concida con el tipo definido en TS.h
-//pero ignoramos valor de retorno.
 
+//COMANDOS DEL INTÉRPRETE.
+
+//salir limpiando memoria.
 void* salir(){
     destruirTablaSimbolos();
     exit(0);
 }
 
+//imprimir la ayuda general
 void* ayuda(){
     printf("Aqui irá la ayuda\n");
     return((void*)0);
 }
 
+//imprimir todas las variables almacenadas en la TS
 void* workspace(){
     printf("\x1b[34m[Workspace]:\n");
     consultarVariables();
     return((void*)0);
 }
 
+//activar el echo. Es decir, imprimir el resultado de las operaciones
 void* echoon(){
     echo=1;
     printf("\x1b[34mEco activado\x1b[0m\n");
     return((void*)0);
 }
 
+//desactivar el echo. Es decir, NO imprimir el resultado de las operaciones
 void* echooff(){
     echo=0;
     printf("\x1b[34mEco desactivado\x1b[0m\n");
     return((void*)0);
 }
 
+/**
+ * Impresión por pantalla de:
+ * Expresiones, ej 2+2/1
+ * Variables, ej a 
+ * Strings, ej "hola"
+ */
 void* print(char *s){
     printf("\x1b[34mOut[%d]: ", yylineno-1);
     for(int i=0; i<strlen(s);i++){
@@ -43,6 +54,7 @@ void* print(char *s){
     return((void*)0);
 }
 
+//eliminar un elemento (normalmente variable) de la TS.
 void* delete(tipoelem *elemento){
     //si no es miembro, imprimimos advertencia.
     if(!esMiembro(elemento->lexema)){
@@ -55,5 +67,10 @@ void* delete(tipoelem *elemento){
     eliminar(*elemento);
     free(elemento);
     return((void*)0);
+}
+
+//cargar un archivo indicado por *path
+void* cargar(char *path){
+    
 }
 

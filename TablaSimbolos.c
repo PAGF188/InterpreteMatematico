@@ -60,6 +60,7 @@ tipoelem _suprimir_min(abb *A);
 //Recorre el árbol imprimiendo todos los elementos con componente léxico _VAR
 void imprime_variables(abb A);
 
+
 // BORRAR!!!!!! Función de comprobación. Imprime toda la tabla de símbolos. Recorrido inorden del árbol.
 void imprime_tabla(abb A){
     tipoelem E;
