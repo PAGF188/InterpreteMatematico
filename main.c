@@ -59,6 +59,7 @@ void cargarElementosIniciales(){
         {"workspace", workspace},
         {"echoon", echoon},
         {"echooff", echooff},
+        {"print", print},
         {0, 0}
     };
 

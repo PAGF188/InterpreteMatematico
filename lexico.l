@@ -27,6 +27,9 @@ DECIMAL_EXPONENT    ((e\+)|(E\+)|(e-)|(E-)|(e)|(E))(_?[0-9][0-9_]*)
 /*IDENTIFICADORES (variables, constantes o funciones)*/
 IDENTIFICADOR       [_A-Za-z][A-Za-z0-9_]*|\?
 
+/*SOLO SE CONTEMPLA: DoubleQuotedString:*/
+STRING              \"([^"\\]|\\.)*\"
+
 
 /*COMENTARIOS*/
 COMENTARIO_LINEA    \/\/.*
@@ -61,8 +64,10 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
                             return(e->componenteLexico);
                         }  
 
-    /*Caracteres que componen en si mismos un componente léxico*/
+{STRING}                {yylval._string = strdup(yytext); return(_STRING);}
 
+
+    /*Caracteres que componen en si mismos un componente léxico*/
 [ \t]+    /*ignoramos espacios*/;
 "\n"      | 
 "-"       |

@@ -2,6 +2,7 @@
 %{
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 #include "./headerFiles/TablaSimbolos.h"
 #include "./headerFiles/Errores.h"   /*centralización de la gestión de errores*/
 #include "./lex.yy.c"  /*demanda de componentes lexicos*/
@@ -24,12 +25,14 @@ int echo = 1;
 %}
 
 %union {
+    char * _string;
     double _double;
     int _int;
     tipoelem *elementoTS;   /*Puntero a un elemento de la tabla de símbolos (constante, variable, funcion)*/
 }
 
 /*TERMINALES*/
+%token <_string>    _STRING
 %token <_double>    _NUM
 %token <elementoTS> _VAR _FUNCION _CONST _COMANDO  
 %right '='
@@ -40,6 +43,7 @@ int echo = 1;
 
 /*NO TERMINALES*/
 %type <_double> exp
+%type <_string> textoImprimir
 
 %%
 
@@ -49,12 +53,30 @@ input:  /*vacio*/
 
 linea: 
         '\n'
-        | exp '\n' {
-                        if(echo)
-                            printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea(); 
-                        /*printf("\n");imprimirArbol();*/}
-        | error '\n' {yyerrok;}
-        | _COMANDO '\n'  { $1->value.funcion_ptr(); nuevaLinea();}
+        | exp '\n'              {
+                                    if(echo)
+                                        printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);nuevaLinea(); 
+                                    /*printf("\n");imprimirArbol();*/
+                                }
+        | error '\n'            {yyerrok;}
+        | _COMANDO '\n'         { $1->value.funcion_ptr(); nuevaLinea();}
+        | _COMANDO textoImprimir '\n' {
+                                    if(strcmp("print", $1->lexema)==0){
+                                        $1->value.funcion_ptr($2);
+                                    }
+                                    else{
+                                        codigoError = 13;
+                                        yyerror("");
+                                        YYERROR;
+                                    }
+                                }
+;
+
+textoImprimir:
+                textoImprimir _VAR      {}
+                | textoImprimir _STRING   {strcat($1,$2); free($2);}
+                | _VAR                  {}
+                | _STRING               {$$=$1;}
 ;
 
 exp:    

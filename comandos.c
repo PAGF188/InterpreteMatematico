@@ -20,15 +20,22 @@ void* workspace(){
     return((void*)0);
 }
 
-void *echoon(){
+void* echoon(){
     echo=1;
     printf("\x1b[34mEco activado\n \x1b[0m");
     return((void*)0);
 }
 
-void *echooff(){
+void* echooff(){
     echo=0;
     printf("\x1b[34mEco desactivado\n \x1b[0m");
+    return((void*)0);
+}
+
+void* print(char *s){
+    printf("\x1b[34mOut[%d]: ", yylineno-1);
+    printf("%s\n \x1b[0m",s);
+    nuevaLinea();
     return((void*)0);
 }
 

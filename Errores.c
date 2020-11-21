@@ -66,6 +66,12 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
         else
             printf("Semantic Error! Intento de división entre 0 \n");
         break;
+    case 13:
+        if(mode==1)
+            printf("(linea %d) Semantic Error! Este comando no acepta modificadores. \n",linea);
+        else
+            printf("Semantic Error! Este comando no acepta modificadores.\n");
+        break;
     default:
         break;
     }
