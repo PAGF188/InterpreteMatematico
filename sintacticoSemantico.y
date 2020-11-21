@@ -33,6 +33,7 @@ int echo = 1;
 }
 
 /*TERMINALES*/
+%token <_string>    _ARCHIVO
 %token <_string>    _STRING
 %token <_double>    _NUM
 %token <elementoTS> _VAR _FUNCION _CONST _COMANDO  
@@ -65,13 +66,13 @@ linea:
         | error '\n'            {yyerrok;}
         | _COMANDO '\n'         { 
                                     /*si no son delete, print*/
-                                    if(strcmp("print", $1->lexema)!=0 && strcmp("delete", $1->lexema)!=0)
+                                    if(strcmp("print", $1->lexema)!=0 && strcmp("load", $1->lexema)!=0)
                                         $1->value.funcion_ptr(); 
                                         nuevaLinea();
                                 }
         | _COMANDO argumento '\n' {
                                     /*esta derivación solo es valida con los comandos: print, " */
-                                    if(strcmp("print", $1->lexema)==0){
+                                    if(strcmp("print", $1->lexema)==0 || strcmp("load", $1->lexema)==0){
                                         $1->value.funcion_ptr($2);
                                         free($2);
                                     }
@@ -92,6 +93,7 @@ argumento:
                                             $$ = _s;
                                         }
                 | _STRING               {$$=$1;}
+                | _ARCHIVO              {$$=$1;}
                 | argumento _STRING {$$=strcat($1,$2); free($2);}    
                 | argumento exp         {
                                             /*cast double to char* y concatenación con textoImprimir*/

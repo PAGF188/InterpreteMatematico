@@ -45,14 +45,15 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    _STRING = 258,
-    _NUM = 259,
-    _VAR = 260,
-    _FUNCION = 261,
-    _CONST = 262,
-    _COMANDO = 263,
-    _DELETE = 264,
-    NEG = 265
+    _ARCHIVO = 258,
+    _STRING = 259,
+    _NUM = 260,
+    _VAR = 261,
+    _FUNCION = 262,
+    _CONST = 263,
+    _COMANDO = 264,
+    _DELETE = 265,
+    NEG = 266
   };
 #endif
 
@@ -68,7 +69,7 @@ union YYSTYPE
     int _int;
     tipoelem *elementoTS;   /*Puntero a un elemento de la tabla de símbolos (constante, variable, funcion)*/
 
-#line 72 "sintacticoSemantico.tab.h" /* yacc.c:1909  */
+#line 73 "sintacticoSemantico.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

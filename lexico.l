@@ -4,10 +4,19 @@
 #include "./headerFiles/Definiciones.h"
 #include "./headerFiles/Errores.h"
 
+/*numero maximo de archivos a almacenar en la pila de archivos "por cargar"*/
+#define MAX_INCLUDE_DEPTH 5 
+/*pila de archivos a cargar*/
+YY_BUFFER_STATE include_stack[MAX_INCLUDE_DEPTH];
+/*puntero al elemento de la pila en el que estamos*/
+int include_stack_ptr = 0;
+
 int mode=0; //0-> no se imprime nº linea. 1 si.
 %}
+
 %option noyywrap
 %option yylineno
+
 
 /*PATRONES PARA ENTEROS. Se aceptan sufijos.*/
 INTEGER_LITERAL     {INTEGER}|({INTEGER}{INTEGER_SUFIX})
@@ -30,6 +39,8 @@ IDENTIFICADOR       [_A-Za-z][A-Za-z0-9_]*|\?
 /*SOLO SE CONTEMPLA: DoubleQuotedString:*/
 STRING              \"([^"\\]|\\.)*\"
 
+/*archivo*/
+ARCHIVO             [/._A-Za-z0-9]+\.txt
 
 /*COMENTARIOS*/
 COMENTARIO_LINEA    \/\/.*
@@ -65,7 +76,7 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
                         }  
 
 {STRING}                {yylval._string = strdup(yytext); return(_STRING);}
-
+{ARCHIVO}               {yylval._string = strdup(yytext); return(_ARCHIVO);}
 
     /*Caracteres que componen en si mismos un componente léxico*/
 [ \t]+    /*ignoramos espacios*/;
@@ -122,7 +133,15 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
         while((c = input()) !='\n');
     }
 
-<<EOF>> {   return(0);  }
+<<EOF>> {   
+            if(--include_stack_ptr<0){
+                yyterminate();
+            }  
+            else{
+                yy_delete_buffer(YY_CURRENT_BUFFER);
+                yy_switch_to_buffer(include_stack[include_stack_ptr]);
+            }
+        }
 
 %%
 
