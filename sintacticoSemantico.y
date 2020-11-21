@@ -36,6 +36,9 @@ int echo = 1;
 %token <_string>    _STRING
 %token <_double>    _NUM
 %token <elementoTS> _VAR _FUNCION _CONST _COMANDO  
+/*el comando delete se trata por separado para poder diferenciar entre print a, en donde imprimimos
+el contenido de la variable a. Y delete a, en donde la eliminamos */
+%token <elementoTS> _DELETE 
 %right '='
 %left '-' '+'
 %left '*' '/'
@@ -44,7 +47,7 @@ int echo = 1;
 
 /*NO TERMINALES*/
 %type <_double> exp
-%type <_string> textoImprimir
+%type <_string> argumento
 
 %%
 
@@ -63,10 +66,11 @@ linea:
         | _COMANDO '\n'         { 
                                     /*si no son delete, print*/
                                     if(strcmp("print", $1->lexema)!=0 && strcmp("delete", $1->lexema)!=0)
-                                        $1->value.funcion_ptr(); nuevaLinea();
+                                        $1->value.funcion_ptr(); 
+                                        nuevaLinea();
                                 }
-        | _COMANDO textoImprimir '\n' {
-                                    /*esta derivación solo es valida sin _COMANDO es "print" */
+        | _COMANDO argumento '\n' {
+                                    /*esta derivación solo es valida con los comandos: print, " */
                                     if(strcmp("print", $1->lexema)==0){
                                         $1->value.funcion_ptr($2);
                                         free($2);
@@ -77,28 +81,25 @@ linea:
                                         YYERROR;
                                     }
                                 }
-        | _COMANDO _VAR '\n'    {
-                                    /*esta derivación solo es valida sin _COMANDO es "delete" */
-                                    if(strcmp("delete", $1->lexema)==0){
-                                        $1->value.funcion_ptr($2);
-                                    }
-                                    else{
-                                        codigoError = 13;
-                                        yyerror($1->lexema);
-                                        YYERROR;
-                                    }
-                                }
+        | _DELETE _VAR '\n'     {$1->value.funcion_ptr($2);}
 ;
 
-textoImprimir:
+argumento:      
                 exp                     {   
                                             /*cast double to char* */
-                                            char* _s = (char *)malloc(sizeof(char)*50); /*definimos un tamaño maximo*/
+                                            char* _s = (char *)malloc(sizeof(char)*1000); /*definimos un tamaño maximo*/
 	                                        sprintf(_s,"%.10g",$1);
                                             $$ = _s;
                                         }
                 | _STRING               {$$=$1;}
-                | textoImprimir _STRING {$$=strcat($1,$2); free($2);}         
+                | argumento _STRING {$$=strcat($1,$2); free($2);}    
+                | argumento exp         {
+                                            /*cast double to char* y concatenación con textoImprimir*/
+                                            char* _s = (char *)malloc(sizeof(char)*1000); /*definimos un tamaño maximo*/
+	                                        sprintf(_s,"%.10g",$2);
+                                            $$=strcat($1,_s);
+                                            free(_s);
+                                        }     
 ;
 
 exp:    

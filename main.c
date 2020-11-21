@@ -68,6 +68,8 @@ void cargarElementosIniciales(){
         tipoelem aux;
         aux.lexema = _comandos[i].nombre;
         aux.componenteLexico = _COMANDO;
+        if(strcmp("delete", aux.lexema)==0)
+            aux.componenteLexico = _DELETE;
         aux.value.funcion_ptr = _comandos[i].funcion_ptr;
         insertarReservados(aux);
     }

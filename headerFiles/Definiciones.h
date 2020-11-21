@@ -51,7 +51,8 @@ extern int yydebug;
     _FUNCION = 261,
     _CONST = 262,
     _COMANDO = 263,
-    NEG = 264
+    _DELETE = 264,
+    NEG = 265
   };
 #endif
 
@@ -67,7 +68,7 @@ union YYSTYPE
     int _int;
     tipoelem *elementoTS;   /*Puntero a un elemento de la tabla de símbolos (constante, variable, funcion)*/
 
-#line 71 "sintacticoSemantico.tab.h" /* yacc.c:1909  */
+#line 72 "sintacticoSemantico.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
