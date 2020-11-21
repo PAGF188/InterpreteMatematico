@@ -71,12 +71,7 @@ void* delete(tipoelem *elemento){
 
 //cargar un archivo indicado por *path
 void* cargar(char *path){
-    printf("%s", path);
-    FILE* aux = fopen(path,"r");
-    if(!aux){
-        printf("error");
-    }
-    /*if(include_stack_ptr >= MAX_INCLUDE_DEPTH){
+    if(include_stack_ptr >= MAX_INCLUDE_DEPTH){
         //cambair a yyerror-> numero maximo de cargas recursivas
         printf("No puedes cargar recursivamente mas ficheros");
     }
@@ -84,13 +79,18 @@ void* cargar(char *path){
         include_stack[include_stack_ptr++] = YY_CURRENT_BUFFER;
         yyin = fopen(path, "r");
         if(!yyin){
-            printf("error archivo no existe");
-        }
-        else{
+            if(--include_stack_ptr<0){
+                yyterminate();
+            }  
+            else{
+                yy_delete_buffer(YY_CURRENT_BUFFER);
+                yy_switch_to_buffer(include_stack[include_stack_ptr]);
+            }
+        }else{
             yy_switch_to_buffer(yy_create_buffer(yyin, YY_BUF_SIZE));
             BEGIN(INITIAL);
         }
-    }*/
+    }
     return((void*)0);
 }
 

@@ -109,7 +109,7 @@ void consultarVariables();
  */
 int esMiembro(char *s);
 
-//borrar
+//depuración
 void imprimirArbol();
 
 #endif	/* __TABLA_S */
