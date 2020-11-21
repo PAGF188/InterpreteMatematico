@@ -139,6 +139,12 @@ void consultarVariables(){
     imprime_variables(tablaSimbolos);
 }
 
+int esMiembro(char *s){
+    tipoelem nodo;
+    buscar_nodo(tablaSimbolos, s, &nodo);
+    return(nodo.inicializada!=0);
+}
+
 /////////////////// IMPLEMENTACIÓN FUNCIONES PRIVADAS
 int _comparar_claves(tipoclave cl1, tipoclave cl2){
     return strcmp(cl1,cl2)==0 ? 0 : strcmp(cl1,cl2)>0 ? 1 : -1; 

@@ -22,13 +22,13 @@ void* workspace(){
 
 void* echoon(){
     echo=1;
-    printf("\x1b[34mEco activado\n \x1b[0m");
+    printf("\x1b[34mEco activado\x1b[0m\n");
     return((void*)0);
 }
 
 void* echooff(){
     echo=0;
-    printf("\x1b[34mEco desactivado\n \x1b[0m");
+    printf("\x1b[34mEco desactivado\x1b[0m\n");
     return((void*)0);
 }
 
@@ -44,9 +44,16 @@ void* print(char *s){
 }
 
 void* delete(tipoelem *elemento){
+    //si no es miembro, imprimimos advertencia.
+    if(!esMiembro(elemento->lexema)){
+        codigoError = 11;
+        yyerror(elemento->lexema);
+    }else{
+        nuevaLinea();
+    }
+    //como el lexico inserta preinserta siempre la VAR en la TS, la borramos.
     eliminar(*elemento);
     free(elemento);
-    nuevaLinea();
     return((void*)0);
 }
 

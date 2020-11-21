@@ -76,11 +76,16 @@ tipoelem * insertarElemento(char* lexema, int tipo);
  * @name modificar
  * @objective: Modificar una varibale de la tabla de símbolos. 
  * Se sobreescribe su valor por @param valor.
- * @param tipoelem referencia el elemento de la TS a modificar.
+ * @param *E referencia el elemento de la TS a modificar.
  * @param valor. Nuevo valor a insertar.
  */
 void modificar(tipoelem *E, double valor);
 
+/**
+ * @name eliminar
+ * @objective: eliminar de la tabla de símbolso el elemento indicado por E
+ * @param E elemento a eliminar
+ */
 void eliminar(tipoelem E);
 
 /**
@@ -95,6 +100,14 @@ void destruirTablaSimbolos();
  * @objective: imprime todos los elementos de la TS que comparten en componente léxico _VAR
  */
 void consultarVariables();
+
+/**
+ * @name esMiembro
+ * @objective: consultar si el elemento está en la tabla de símbolos.
+ * @param *s lexema del elemento a consultar.
+ * @return int. 1 es miembro. 0 no es miembro.
+ */
+int esMiembro(char *s);
 
 //borrar
 void imprimirArbol();
