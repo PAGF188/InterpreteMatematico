@@ -15,14 +15,8 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
 
     switch (codigo)
     {
-    case 1:
-        printf("Argument error! : Solo puedes pasar un archivo para compilar.\n");
-        break;
     case 2: 
-        printf("Entry System error! : El archivo no es accesible.\n");
-        break;
-    case 3:
-        printf("Entry System error! : El archivo no se pudo cerrar.\n");
+        printf("Semantic Error! : El archivo <%s> no es accesible.\n", lexema);
         break;
     case 6:
         if(mode==1)
@@ -71,6 +65,9 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
             printf("\t(linea %d) Semantic Error! Modificador invalido para el comando <%s> \n",linea, lexema);
         else
             printf("Semantic Error! Modificador invalido para el comando <%s> \n", lexema);
+        break;
+    case 14:
+            printf("Catastrophic Error! El número de archivos en pila para cargar supera el máximo permitido.\n");
         break;
     default:
         break;

@@ -85,11 +85,21 @@ void* delete(tipoelem *elemento){
 
 //cargar un archivo indicado por *path
 void* cargar(char *path){
+
+    //comprobación inicial de que EL FICHERO EXISTE
+    if(!fopen(path, "r")){
+        codigoError = 2;
+        yyerror(path);
+        return((void*)0);
+    }
+
     echo=0;
     mode=1;
+    //Si el número de punteros a archivos en pila supera el limite permitido: error catastrófico. 
     if(include_stack_ptr >= MAX_INCLUDE_DEPTH){
-        //cambair a yyerror-> numero maximo de cargas recursivas
-        printf("No puedes cargar recursivamente mas ficheros");
+        codigoError = 14;
+        yyerror("");
+        salir();
     }
     else{
         include_stack[include_stack_ptr++] = YY_CURRENT_BUFFER;
