@@ -60,7 +60,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 27 "sintacticoSemantico.y" /* yacc.c:1909  */
+#line 28 "sintacticoSemantico.y" /* yacc.c:1909  */
 
     char * _string;
     double _double;

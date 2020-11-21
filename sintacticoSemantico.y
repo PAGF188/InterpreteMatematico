@@ -2,6 +2,7 @@
 %{
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "./headerFiles/TablaSimbolos.h"
 #include "./headerFiles/Errores.h"   /*centralización de la gestión de errores*/
@@ -63,6 +64,7 @@ linea:
         | _COMANDO textoImprimir '\n' {
                                     if(strcmp("print", $1->lexema)==0){
                                         $1->value.funcion_ptr($2);
+                                        free($2);
                                     }
                                     else{
                                         codigoError = 13;
@@ -73,9 +75,30 @@ linea:
 ;
 
 textoImprimir:
-                textoImprimir _VAR      {}
-                | textoImprimir _STRING   {strcat($1,$2); free($2);}
-                | _VAR                  {}
+                textoImprimir _VAR      {
+                                            if($2->inicializada == 0){
+                                                eliminar(*$2);
+                                                codigoError = 11;
+                                                yyerror($2->lexema);
+                                                YYERROR;
+                                            }
+                                            char* _s = (char *)malloc(sizeof(char)*50); /*definimos un tamaño maximo*/
+	                                        sprintf(_s,"%.10g",$2->value.var);
+                                            $$=strcat($1,_s);
+                                            free(_s);
+                                        }
+                | textoImprimir _STRING   {$$=strcat($1,$2); free($2);}
+                | _VAR                  {
+                                            if($1->inicializada == 0){
+                                                eliminar(*$1);
+                                                codigoError = 11;
+                                                yyerror($1->lexema);
+                                                YYERROR;
+                                            }
+                                            char* _s = (char *)malloc(sizeof(char)*50); /*definimos un tamaño maximo*/
+	                                        sprintf(_s,"%.10g",$1->value.var);
+                                            $$ = _s;
+                                        }
                 | _STRING               {$$=$1;}
 ;
 
