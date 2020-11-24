@@ -2,41 +2,42 @@
 #include "sintacticoSemantico.tab.c"
 #include "TablaSimbolos.h"
 
-//COMANDOS DEL INTÉRPRETE.
+//COMANDOS DEL INTÉRPRETE. El valor de retorno se ignora.
+//Se hizo asi para poder aprovechar el mismo campo que para funciones.
 
 //salir limpiando memoria.
-void* salir(){
+double salir(){
     destruirTablaSimbolos();
     exit(0);
 }
 
 //imprimir la ayuda general
-void* ayuda(){
+double ayuda(){
     printf("Aqui irá la ayuda\n");
-    return((void*)0);
+    return(0);
 }
 
 //imprimir todas las variables almacenadas en la TS
-void* workspace(){
+double workspace(){
     if(mode==1)
         printf("\t");
     printf("\x1b[34m[Workspace]:\n");
     consultarVariables();
-    return((void*)0);
+    return(0);
 }
 
 //activar el echo. Es decir, imprimir el resultado de las operaciones
-void* echoon(){
+double echoon(){
     echo=1;
     printf("\x1b[34mEco activado\x1b[0m\n");
-    return((void*)0);
+    return(0);
 }
 
 //desactivar el echo. Es decir, NO imprimir el resultado de las operaciones
-void* echooff(){
+double echooff(){
     echo=0;
     printf("\x1b[34mEco desactivado\x1b[0m\n");
-    return((void*)0);
+    return(0);
 }
 
 /**
@@ -45,7 +46,7 @@ void* echooff(){
  * Variables, ej a 
  * Strings, ej "hola"
  */
-void* print(char *s){
+double print(char *s){
     //Si la interacción actual es por teclado, mostramos los print con un formato especifico.
     if(mode==0){
         printf("\x1b[34mOut[%d]: ", yylineno-1);
@@ -64,12 +65,12 @@ void* print(char *s){
         }
         printf("\x1b[0m\n");
     }
-    return((void*)0);
+    return(0);
 
 }
 
 //eliminar un elemento (normalmente variable) de la TS.
-void* delete(tipoelem *elemento){
+double delete(tipoelem *elemento){
     //si no es miembro, imprimimos advertencia.
     if(!esMiembro(elemento->lexema)){
         codigoError = 11;
@@ -80,17 +81,17 @@ void* delete(tipoelem *elemento){
     //como el lexico inserta preinserta siempre la VAR en la TS, la borramos.
     eliminar(*elemento);
     free(elemento);
-    return((void*)0);
+    return(0);
 }
 
 //cargar un archivo indicado por *path
-void* cargar(char *path){
+double cargar(char *path){
 
     //comprobación inicial de que EL FICHERO EXISTE
     if(!fopen(path, "r")){
         codigoError = 2;
         yyerror(path);
-        return((void*)0);
+        return(0);
     }
 
     echo=0;
@@ -120,6 +121,6 @@ void* cargar(char *path){
             yylineno=0;
         }
     }
-    return((void*)0);
+    return(0);
 }
 

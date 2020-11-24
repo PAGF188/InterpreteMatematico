@@ -91,60 +91,64 @@ linea:
 ;
 
 argumento:      
-                exp                     {   
-                                            /*cast double to char* */
-                                            char* _s = (char *)malloc(sizeof(char)*1000); /*definimos un tamaño maximo*/
-	                                        sprintf(_s,"%.10g",$1);
-                                            $$ = _s;
-                                        }
-                | _STRING               {$$=$1;}
-                | _ARCHIVO              {$$=$1;}
-                | argumento _STRING {$$=strcat($1,$2); free($2);}    
-                | argumento exp         {
-                                            /*cast double to char* y concatenación con textoImprimir*/
-                                            char* _s = (char *)malloc(sizeof(char)*1000); /*definimos un tamaño maximo*/
-	                                        sprintf(_s,"%.10g",$2);
-                                            $$=strcat($1,_s);
-                                            free(_s);
-                                        }     
+        exp                     {   
+                                    /*cast double to char* */
+                                    char* _s = (char *)malloc(sizeof(char)*1000); /*definimos un tamaño maximo*/
+	                                sprintf(_s,"%.10g",$1);
+                                    $$ = _s;
+                                }
+        | _STRING               {$$=$1;}
+        | _ARCHIVO              {$$=$1;}
+        | argumento _STRING {$$=strcat($1,$2); free($2);}    
+        | argumento exp         {
+                                    /*cast double to char* y concatenación con textoImprimir*/
+                                    char* _s = (char *)malloc(sizeof(char)*1000); /*definimos un tamaño maximo*/
+	                                sprintf(_s,"%.10g",$2);
+                                    $$=strcat($1,_s);
+                                    free(_s);
+                                }     
 ;
 
 exp:    
-        _NUM                {$$=$1;}
-        | _VAR '=' exp      {
-                                /*Notar que al lado izquierdo de la expresión SOLO puede aparecer
-                                una variable. NUNCA una constante o un número*/
-                                modificar($1, $3);
-                                $$=$3;
-                            }
-        |_VAR               {
-                                /*Una expresión NUNCA podrá derivar en una variable si esta
-                                no está inicializada. Error*/
-                                if($1->inicializada == 0){
-                                    eliminar(*$1);
-                                    codigoError = 11;
-                                    yyerror($1->lexema);
-                                    free($1);
-                                    YYERROR;
+        _NUM                        {$$=$1;}
+        | _VAR '=' exp              {
+                                        /*Notar que al lado izquierdo de la expresión SOLO puede aparecer
+                                        una variable. NUNCA una constante o un número*/
+                                        modificar($1, $3);
+                                        $$=$3;
+                                    }
+        |_VAR                       {
+                                        /*Una expresión NUNCA podrá derivar en una variable si esta
+                                        no está inicializada. Error*/
+                                        if($1->inicializada == 0){
+                                            eliminar(*$1);
+                                            codigoError = 11;
+                                            yyerror($1->lexema);
+                                            free($1);
+                                            YYERROR;
+                                        }
+                                        $$ = $1->value.var;
+                                    }
+        | _FUNCION '(' exp ')'      {
+                                        /*recordar que devuelve (void *)*/
+                                        $$ = $1->value.funcion_ptr($3);
+                                    }
+        |_CONST                 {$$ = $1->value.var;}
+        | exp '+' exp           {$$ = $1 + $3;}
+        | exp '-' exp           {$$ = $1 - $3;}
+        | exp '*' exp           {$$ = $1 * $3;}
+        | exp '/' exp           {
+                                    /*Error al intentar dividir entre 0*/
+                                    if($3==0){
+                                        codigoError = 12;
+                                        yyerror("");
+                                        YYERROR;
+                                    }
+                                    $$ = $1 / $3;
                                 }
-                                $$ = $1->value.var;
-                            }
-        |_CONST             {$$ = $1->value.var;}
-        | exp '+' exp       {$$ = $1 + $3;}
-        | exp '-' exp       {$$ = $1 - $3;}
-        | exp '*' exp       {$$ = $1 * $3;}
-        | exp '/' exp       {
-                                /*Error al intentar dividir entre 0*/
-                                if($3==0){
-                                    codigoError = 12;
-                                    yyerror("");
-                                    YYERROR;
-                                }
-                                $$ = $1 / $3;
-                            }
-        | '-' exp %prec NEG {$$=-$2;}
-        | exp '^' exp       {$$ = pow($1,$3);}
-        | '(' exp ')'       {$$=$2;}
+        | '-' exp %prec NEG     {$$=-$2;}
+        | exp '^' exp           {$$ = pow($1,$3);}
+        | '(' exp ')'           {$$=$2;}
 ;
 
 %%

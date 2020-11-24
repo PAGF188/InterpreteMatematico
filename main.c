@@ -17,7 +17,7 @@
 /*Tipo de dato para encapsular la infocmación de los comandos que es estática*/
 typedef struct {
     char * nombre;
-    void* (* funcion_ptr)();   //puntero a la función a ejecutar (o comando)
+    double (* funcion_ptr)();   //puntero a la función a ejecutar (o comando)
 }comandos;
 
 //Para mostrar de forma bonita el inicio del programa.
@@ -72,6 +72,33 @@ void cargarElementosIniciales(){
         if(strcmp("delete", aux.lexema)==0)
             aux.componenteLexico = _DELETE;
         aux.value.funcion_ptr = _comandos[i].funcion_ptr;
+        insertarReservados(aux);
+    }
+
+    //FUNCIONES ESTÁTICAS
+    comandos _funciones[] = {
+        {"acos",  acos},
+        {"asin",  asin},
+        {"atan",  atan},
+        {"cos",  cos},
+        {"cosh", cosh},
+        {"sin",  sin},
+        {"sinh", sinh},
+        {"tanh", tanh},
+        {"exp",  exp},
+        {"log",  log},
+        {"log10", log10},
+        {"ceil",  ceil},
+        {"fabs",  fabs},
+        {"floor", floor},
+        {0, 0}
+    };
+
+    for (int i = 0; _funciones[i].nombre != 0; i++){
+        tipoelem aux;
+        aux.lexema = _funciones[i].nombre;
+        aux.componenteLexico = _FUNCION;
+        aux.value.funcion_ptr = _funciones[i].funcion_ptr;
         insertarReservados(aux);
     }
 }

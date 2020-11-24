@@ -38,7 +38,7 @@ typedef struct {
     char inicializada;               //0-> variable no inicializada, 1 si inicializada
     union{
         double var;                 //valor de la constante o variable
-        void* (* funcion_ptr)();   //puntero a la función a ejecutar (o comando)
+        double (* funcion_ptr)();   //puntero a la función a ejecutar (o comando)
     }value;
     
 }tipoelem;
