@@ -464,8 +464,8 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    56,    56,    57,    61,    62,    70,    71,    78,    90,
-      94,   100,   101,   102,   103,   113,   114,   120,   132,   136,
-     137,   138,   139,   140,   149,   150,   151
+      94,   100,   101,   102,   103,   113,   114,   120,   132,   133,
+     134,   135,   136,   137,   146,   147,   148
 };
 #endif
 
@@ -1292,7 +1292,7 @@ yyreduce:
   case 7:
 #line 71 "sintacticoSemantico.y" /* yacc.c:1646  */
     { 
-                                    /*si no son delete, print*/
+                                    /*si no son print load o include*/
                                     if(strcmp("print", (yyvsp[-1].elementoTS)->lexema)!=0 && strcmp("load", (yyvsp[-1].elementoTS)->lexema)!=0)
                                         (yyvsp[-1].elementoTS)->value.funcion_ptr(); 
                                     if(mode==0)    
@@ -1304,8 +1304,8 @@ yyreduce:
   case 8:
 #line 78 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
-                                    /*esta derivación solo es valida con los comandos: print, */
-                                    if(strcmp("print", (yyvsp[-2].elementoTS)->lexema)==0 || strcmp("load", (yyvsp[-2].elementoTS)->lexema)==0){
+                                    /*esta derivación solo es valida con los comandos: print, load e include */
+                                    if(strcmp("print", (yyvsp[-2].elementoTS)->lexema)==0 || strcmp("load", (yyvsp[-2].elementoTS)->lexema)==0 || strcmp("include", (yyvsp[-2].elementoTS)->lexema)==0){
                                         (yyvsp[-2].elementoTS)->value.funcion_ptr((yyvsp[-1]._string));
                                         free((yyvsp[-1]._string));
                                     }
@@ -1374,66 +1374,63 @@ yyreduce:
   case 16:
 #line 114 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
-                                        /*Notar que al lado izquierdo de la expresión SOLO puede aparecer
-                                        una variable. NUNCA una constante o un número*/
-                                        modificar((yyvsp[-2].elementoTS), (yyvsp[0]._double));
-                                        (yyval._double)=(yyvsp[0]._double);
-                                    }
+                                    /*Notar que al lado izquierdo de la expresión SOLO puede aparecer
+                                    una variable. NUNCA una constante o un número*/
+                                    modificar((yyvsp[-2].elementoTS), (yyvsp[0]._double));
+                                    (yyval._double)=(yyvsp[0]._double);
+                                }
 #line 1383 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
 #line 120 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
-                                        /*Una expresión NUNCA podrá derivar en una variable si esta
-                                        no está inicializada. Error*/
-                                        if((yyvsp[0].elementoTS)->inicializada == 0){
-                                            eliminar(*(yyvsp[0].elementoTS));
-                                            codigoError = 11;
-                                            yyerror((yyvsp[0].elementoTS)->lexema);
-                                            free((yyvsp[0].elementoTS));
-                                            YYERROR;
-                                        }
-                                        (yyval._double) = (yyvsp[0].elementoTS)->value.var;
+                                    /*Una expresión NUNCA podrá derivar en una variable si esta
+                                    no está inicializada. Error*/
+                                    if((yyvsp[0].elementoTS)->inicializada == 0){
+                                        eliminar(*(yyvsp[0].elementoTS));
+                                        codigoError = 11;
+                                        yyerror((yyvsp[0].elementoTS)->lexema);
+                                        free((yyvsp[0].elementoTS));
+                                        YYERROR;
                                     }
+                                    (yyval._double) = (yyvsp[0].elementoTS)->value.var;
+                                }
 #line 1400 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 132 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {
-                                        /*recordar que devuelve (void *)*/
-                                        (yyval._double) = (yyvsp[-3].elementoTS)->value.funcion_ptr((yyvsp[-1]._double));
-                                    }
-#line 1409 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+    { (yyval._double) = (yyvsp[-3].elementoTS)->value.funcion_ptr((yyvsp[-1]._double));}
+#line 1406 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 136 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 133 "sintacticoSemantico.y" /* yacc.c:1646  */
     {(yyval._double) = (yyvsp[0].elementoTS)->value.var;}
-#line 1415 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1412 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 137 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 134 "sintacticoSemantico.y" /* yacc.c:1646  */
     {(yyval._double) = (yyvsp[-2]._double) + (yyvsp[0]._double);}
-#line 1421 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1418 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 138 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 135 "sintacticoSemantico.y" /* yacc.c:1646  */
     {(yyval._double) = (yyvsp[-2]._double) - (yyvsp[0]._double);}
-#line 1427 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1424 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 139 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 136 "sintacticoSemantico.y" /* yacc.c:1646  */
     {(yyval._double) = (yyvsp[-2]._double) * (yyvsp[0]._double);}
-#line 1433 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1430 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 140 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 137 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
                                     /*Error al intentar dividir entre 0*/
                                     if((yyvsp[0]._double)==0){
@@ -1443,29 +1440,29 @@ yyreduce:
                                     }
                                     (yyval._double) = (yyvsp[-2]._double) / (yyvsp[0]._double);
                                 }
-#line 1447 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1444 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 149 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 146 "sintacticoSemantico.y" /* yacc.c:1646  */
     {(yyval._double)=-(yyvsp[0]._double);}
-#line 1453 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1450 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 150 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 147 "sintacticoSemantico.y" /* yacc.c:1646  */
     {(yyval._double) = pow((yyvsp[-2]._double),(yyvsp[0]._double));}
-#line 1459 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1456 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 151 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 148 "sintacticoSemantico.y" /* yacc.c:1646  */
     {(yyval._double)=(yyvsp[-1]._double);}
-#line 1465 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1462 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1469 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1466 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1693,7 +1690,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 154 "sintacticoSemantico.y" /* yacc.c:1906  */
+#line 151 "sintacticoSemantico.y" /* yacc.c:1906  */
 
 
 //DEFINICIONES AL INICIO DEL ARCHIVO

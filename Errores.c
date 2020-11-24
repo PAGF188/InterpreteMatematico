@@ -69,6 +69,18 @@ void imprimeError(int codigo, int linea, char * lexema, int mode){
     case 14:
             printf("Catastrophic Error! El número de archivos en pila para cargar supera el máximo permitido.\n");
         break;
+    case 15:
+        if(mode==1)
+            printf("\t(linea %d) Semantic Error! Error al cargar el modulo: %s \n",linea, lexema);
+        else
+            printf("Semantic Error! Error al cargar el modulo: %s \n",lexema);
+        break;
+    case 16:
+        if(mode==1)
+            printf("\t(linea %d) Semantic Error! Numero maximo de modulos importados. \n", linea);
+        else
+            printf("Semantic Error! Numero maximo de modulos importados.\n");
+        break;
     default:
         break;
     }

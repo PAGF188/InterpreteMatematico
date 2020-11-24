@@ -33,7 +33,7 @@ int echo = 1;
 }
 
 /*TERMINALES*/
-%token <_string>    _ARCHIVO
+%token <_string>    _ARCHIVO    //path
 %token <_string>    _STRING
 %token <_double>    _NUM
 %token <elementoTS> _VAR _FUNCION _CONST _COMANDO 
@@ -69,15 +69,15 @@ linea:
                                 }
         | error '\n'            {yyerrok;}
         | _COMANDO '\n'         { 
-                                    /*si no son delete, print*/
+                                    /*si no son print load o include*/
                                     if(strcmp("print", $1->lexema)!=0 && strcmp("load", $1->lexema)!=0)
                                         $1->value.funcion_ptr(); 
                                     if(mode==0)    
                                         nuevaLinea();
                                 }
         | _COMANDO argumento '\n' {
-                                    /*esta derivación solo es valida con los comandos: print, */
-                                    if(strcmp("print", $1->lexema)==0 || strcmp("load", $1->lexema)==0){
+                                    /*esta derivación solo es valida con los comandos: print, load e include */
+                                    if(strcmp("print", $1->lexema)==0 || strcmp("load", $1->lexema)==0 || strcmp("include", $1->lexema)==0){
                                         $1->value.funcion_ptr($2);
                                         free($2);
                                     }
@@ -110,29 +110,26 @@ argumento:
 ;
 
 exp:    
-        _NUM                        {$$=$1;}
-        | _VAR '=' exp              {
-                                        /*Notar que al lado izquierdo de la expresión SOLO puede aparecer
-                                        una variable. NUNCA una constante o un número*/
-                                        modificar($1, $3);
-                                        $$=$3;
+        _NUM                    {$$=$1;}
+        | _VAR '=' exp          {
+                                    /*Notar que al lado izquierdo de la expresión SOLO puede aparecer
+                                    una variable. NUNCA una constante o un número*/
+                                    modificar($1, $3);
+                                    $$=$3;
+                                }
+        |_VAR                   {
+                                    /*Una expresión NUNCA podrá derivar en una variable si esta
+                                    no está inicializada. Error*/
+                                    if($1->inicializada == 0){
+                                        eliminar(*$1);
+                                        codigoError = 11;
+                                        yyerror($1->lexema);
+                                        free($1);
+                                        YYERROR;
                                     }
-        |_VAR                       {
-                                        /*Una expresión NUNCA podrá derivar en una variable si esta
-                                        no está inicializada. Error*/
-                                        if($1->inicializada == 0){
-                                            eliminar(*$1);
-                                            codigoError = 11;
-                                            yyerror($1->lexema);
-                                            free($1);
-                                            YYERROR;
-                                        }
-                                        $$ = $1->value.var;
-                                    }
-        | _FUNCION '(' exp ')'      {
-                                        /*recordar que devuelve (void *)*/
-                                        $$ = $1->value.funcion_ptr($3);
-                                    }
+                                    $$ = $1->value.var;
+                                }
+        | _FUNCION '(' exp ')'  { $$ = $1->value.funcion_ptr($3);}
         |_CONST                 {$$ = $1->value.var;}
         | exp '+' exp           {$$ = $1 + $3;}
         | exp '-' exp           {$$ = $1 - $3;}

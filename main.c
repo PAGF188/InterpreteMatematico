@@ -62,6 +62,7 @@ void cargarElementosIniciales(){
         {"print", print},
         {"delete", delete},
         {"load", cargar},
+        {"include", include},
         {0, 0}
     };
 

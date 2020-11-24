@@ -23,6 +23,8 @@
  *                (*) 12 -> intento de deivisón entre 0
  *                (*) 13 -> el comando no acepta modificadores
  *                (*) 14 -> el tamaño de punteros a archivos en pila supera el maximo pertmitido
+ *                (*) 15 -> error al cargar .so
+ *                (*) 16 -> numero máximo de .so abiertas
  * @param linea del error.
  * @param lexema
  * @param mode, 0 no imprimir linea, 1 imprimir linea.

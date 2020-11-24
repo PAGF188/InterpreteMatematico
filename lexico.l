@@ -42,8 +42,8 @@ IDENTIFICADOR       [_A-Za-z][A-Za-z0-9_]*|\?
 /*SOLO SE CONTEMPLA: DoubleQuotedString:*/
 STRING              \"([^"\\]|\\.)*\"
 
-/*archivo*/
-ARCHIVO             [/._A-Za-z0-9]+\.txt
+/*archivo: PATH*/
+ARCHIVO             [/._A-Za-z0-9]+\.(txt|so|mat)
 
 /*COMENTARIOS*/
 COMENTARIO_LINEA    \/\/.*
@@ -138,7 +138,7 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 
 <<EOF>> {   
             /*en principio aqui nunca se debería entrar porque en include_stack el primer
-            puntero referencia a stdin (la entrada por teclado). SOlo al insertar control+d*/
+            puntero referencia a stdin (la entrada por teclado). Solo al insertar control+d*/
             if(--include_stack_ptr<0){
                 yyterminate();
             }  

@@ -1,6 +1,17 @@
+#define _GNU_SOURCE
 #include <stdlib.h>
+#include <dlfcn.h>
+#include "./headerFiles/link.h"
 #include "sintacticoSemantico.tab.c"
-#include "TablaSimbolos.h"
+#include "./headerFiles/TablaSimbolos.h"
+
+#define MAX_L 100
+
+//Estructura para almacenar los handlers de las bibliotecas abiertas con dlopen().
+//y poder cerrarlas al terminar ejecución.
+void *handles[MAX_L];
+int n_handles=0;
+
 
 //COMANDOS DEL INTÉRPRETE. El valor de retorno se ignora.
 //Se hizo asi para poder aprovechar el mismo campo que para funciones.
@@ -123,4 +134,40 @@ double cargar(char *path){
     }
     return(0);
 }
+
+static int callback(struct dl_phdr_info *info, size_t size, void *data){
+    int j;
+
+   printf("name=%s (%d segments)\n", info->dlpi_name,
+        info->dlpi_phnum);
+
+   for (j = 0; j < info->dlpi_phnum; j++)
+         printf("\t\t header %2d: address=%10p\n", j,
+             (void *) (info->dlpi_addr + info->dlpi_phdr[j].p_vaddr));
+    return 0;
+}
+
+//include
+double include(char *path){
+
+    if(n_handles>=MAX_L){
+        codigoError = 16;
+        yyerror("");
+        return(0);
+    }
+    void *handle;   //manejador de la biblioteca
+
+    //intentamos cargar en memoria  la biblioteca compilada
+    handle = dlopen(path, RTLD_LAZY);
+    if(!handle){
+        codigoError = 15;
+        yyerror((char *)dlerror);
+        return(0);
+    }
+
+    dl_iterate_phdr(callback, NULL);
+
+    return(0);
+}
+
 

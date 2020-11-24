@@ -3,12 +3,12 @@ HEADER_FILES_DIR = ./headerFiles
 INCLUDES = -I $(HEADER_FILES_DIR)
 MAIN= matematica
 SRCS = main.c Errores.c TablaSimbolos.c
-DEPS = $(HEADER_FILES_DIR)/Definiciones.h $(HEADER_FILES_DIR)/Errores.h $(HEADER_FILES_DIR)/TablaSimbolos.h
+DEPS = $(HEADER_FILES_DIR)/Definiciones.h $(HEADER_FILES_DIR)/Errores.h $(HEADER_FILES_DIR)/TablaSimbolos.h $(HEADER_FILES_DIR)/link.h
 OBJS = $(SRCS:.c=.o)
 
 $(MAIN): $(OBJS)
 	#compilacion
-	$(CC) -lm -o $(MAIN) $(OBJS)
+	$(CC) -lm -ldl -o $(MAIN) $(OBJS)
 
 precompila:
 	#precompilacion
