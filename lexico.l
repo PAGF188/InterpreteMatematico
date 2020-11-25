@@ -43,7 +43,10 @@ IDENTIFICADOR       [_A-Za-z][A-Za-z0-9_]*|\?
 STRING              \"([^"\\]|\\.)*\"
 
 /*archivo: PATH*/
-ARCHIVO             [/._A-Za-z0-9]+\.(txt|so|mat)
+ARCHIVO             [/._A-Za-z0-9]+\.(txt|so|mat)(,{IDENTIFICADOR})?
+
+/*MODULO*/
+MODULO              [_A-Za-z][A-Za-z0-9_]*\(\)
 
 /*COMENTARIOS*/
 COMENTARIO_LINEA    \/\/.*
@@ -71,7 +74,7 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
                                                         char c;while((c = input()) !='\n');
                                                     }
 
-    /*constantes, variables o funciones (la tabla de símbolos resuelve el problema)*/        
+    /*constantes, variables, funciones, comandos (la tabla de símbolos resuelve el problema)*/        
 {IDENTIFICADOR}         {   
                             tipoelem *e = insertarElemento(strdup(yytext), _VAR);
                             yylval.elementoTS = e;  
@@ -80,6 +83,7 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 
 {STRING}                {yylval._string = strdup(yytext); return(_STRING);}
 {ARCHIVO}               {yylval._string = strdup(yytext); return(_ARCHIVO);}
+{MODULO}                {yylval._string = strdup(yytext); return(_MODULO);}
 
     /*Caracteres que componen en si mismos un componente léxico*/
 [ \t]+    /*ignoramos espacios*/;

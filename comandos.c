@@ -3,17 +3,23 @@
 #include "sintacticoSemantico.tab.c"
 #include "./headerFiles/TablaSimbolos.h"
 
-#define MAX_L 100
+#define MAX_L 100    //tamaño máximo de modulos cargados simultaneamente.
+#define MAX_TAM_LINEA 1024   //tamaño máximo de línea leída.
 
-//Estructura para almacenar los handlers de las bibliotecas abiertas con dlopen().
+//Datos para almacenar los handlers de las bibliotecas abiertas con dlopen().
 //y poder cerrarlas al terminar ejecución.
 void *handles[MAX_L];
 int n_handles=0;
+
+//Puntero al módulo que estamos leyendo
+FILE *fp;
+
+//funciones privadas
 void descargarModulos();
+char* siguienteNombreFuncion();
 
 //COMANDOS DEL INTÉRPRETE. El valor de retorno se ignora.
 //Se hizo asi para poder aprovechar el mismo campo que para funciones.
-
 //salir limpiando memoria.
 double salir(){
     destruirTablaSimbolos();
@@ -135,7 +141,10 @@ double cargar(char *path){
 }
 
 //include
-double include(char *path){
+//Formato de path-> <path>, <funcion>
+double include(char *path, char *func){
+
+    //Si llegamos al máximo de librerias cargadas -> error
     char *_error;
     if(n_handles>=MAX_L-1){
         codigoError = 16;
@@ -152,20 +161,32 @@ double include(char *path){
         return(0);
     }
 
-    double (* funcion_ptr)();
-    funcion_ptr = dlsym(handle, "factorial");
+    
+    tipoelem aux;
+    aux.lexema = func;
+    aux.componenteLexico = _FUNCION;
+    aux.value.funcion_ptr = dlsym(handle, func);   //la cargamos
+    //chequeamos error durante la carga
     if((_error = dlerror()) != NULL){
         codigoError = 15;
         yyerror(_error);
         return(0);
     }
+    
+    //si todo va bien la insertamos pero.....
+    ////OJO!! Como func es un identificador ya fue insertado por la TS como variable.
+    //Primero eliminar
+    eliminar(aux);
+    insertarReservados(aux);
+    imprimirArbol();
 
-
-    /*
-    //los almacenamos para poder cerrarlos al final.
+    //almacenamos manejador para poder cerrarlo al final.
     handles[n_handles] = handle;
-    n_handles++;*/
+    n_handles++;
 
+    //imprimimos GUI
+    nuevaLinea();
+    //free(subpath);
     return(0);
 }
 
@@ -175,5 +196,4 @@ void descargarModulos(){
         n_handles--;
     }
 }
-
 

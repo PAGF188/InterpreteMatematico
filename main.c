@@ -72,6 +72,8 @@ void cargarElementosIniciales(){
         aux.componenteLexico = _COMANDO;
         if(strcmp("delete", aux.lexema)==0)
             aux.componenteLexico = _DELETE;
+        else if(strcmp("include", aux.lexema)==0)
+            aux.componenteLexico = _INCLUDE;
         aux.value.funcion_ptr = _comandos[i].funcion_ptr;
         insertarReservados(aux);
     }

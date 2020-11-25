@@ -33,6 +33,7 @@ int echo = 1;
 }
 
 /*TERMINALES*/
+%token <_string>    _MODULO
 %token <_string>    _ARCHIVO    //path
 %token <_string>    _STRING
 %token <_double>    _NUM
@@ -40,7 +41,7 @@ int echo = 1;
 %token <_int>       _EOF 
 /*el comando delete se trata por separado para poder diferenciar entre print a, en donde imprimimos
 el contenido de la variable a. Y delete a, en donde la eliminamos */
-%token <elementoTS> _DELETE 
+%token <elementoTS> _DELETE _INCLUDE
 %right '='
 %left '-' '+'
 %left '*' '/'
@@ -77,7 +78,7 @@ linea:
                                 }
         | _COMANDO argumento '\n' {
                                     /*esta derivación solo es valida con los comandos: print, load e include */
-                                    if(strcmp("print", $1->lexema)==0 || strcmp("load", $1->lexema)==0 || strcmp("include", $1->lexema)==0){
+                                    if(strcmp("print", $1->lexema)==0 || strcmp("load", $1->lexema)==0){
                                         $1->value.funcion_ptr($2);
                                         free($2);
                                     }
@@ -88,6 +89,7 @@ linea:
                                     }
                                 }
         | _DELETE _VAR '\n'     {$1->value.funcion_ptr($2);}
+        | _INCLUDE _ARCHIVO _VAR     {$1->value.funcion_ptr($2, $3->lexema);}
 ;
 
 argumento:      
