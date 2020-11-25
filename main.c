@@ -119,5 +119,8 @@ int main(int argc, char *argv[]){
     yyparse();
     //nota recoger los casos de error y finalización correcta
     destruirTablaSimbolos();
+
+    //dlclose()
+    descargarModulos();
     return(0);
 }

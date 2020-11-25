@@ -1,7 +1,5 @@
-#define _GNU_SOURCE
 #include <stdlib.h>
 #include <dlfcn.h>
-#include "./headerFiles/link.h"
 #include "sintacticoSemantico.tab.c"
 #include "./headerFiles/TablaSimbolos.h"
 
@@ -11,7 +9,7 @@
 //y poder cerrarlas al terminar ejecución.
 void *handles[MAX_L];
 int n_handles=0;
-
+void descargarModulos();
 
 //COMANDOS DEL INTÉRPRETE. El valor de retorno se ignora.
 //Se hizo asi para poder aprovechar el mismo campo que para funciones.
@@ -19,6 +17,7 @@ int n_handles=0;
 //salir limpiando memoria.
 double salir(){
     destruirTablaSimbolos();
+    descargarModulos();
     exit(0);
 }
 
@@ -135,39 +134,46 @@ double cargar(char *path){
     return(0);
 }
 
-static int callback(struct dl_phdr_info *info, size_t size, void *data){
-    int j;
-
-   printf("name=%s (%d segments)\n", info->dlpi_name,
-        info->dlpi_phnum);
-
-   for (j = 0; j < info->dlpi_phnum; j++)
-         printf("\t\t header %2d: address=%10p\n", j,
-             (void *) (info->dlpi_addr + info->dlpi_phdr[j].p_vaddr));
-    return 0;
-}
-
 //include
 double include(char *path){
-
-    if(n_handles>=MAX_L){
+    char *_error;
+    if(n_handles>=MAX_L-1){
         codigoError = 16;
         yyerror("");
         return(0);
     }
-    void *handle;   //manejador de la biblioteca
 
+    void *handle;   //manejador de la biblioteca
     //intentamos cargar en memoria  la biblioteca compilada
     handle = dlopen(path, RTLD_LAZY);
     if(!handle){
         codigoError = 15;
-        yyerror((char *)dlerror);
+        yyerror((char *)dlerror());
         return(0);
     }
 
-    dl_iterate_phdr(callback, NULL);
+    double (* funcion_ptr)();
+    funcion_ptr = dlsym(handle, "factorial");
+    if((_error = dlerror()) != NULL){
+        codigoError = 15;
+        yyerror(_error);
+        return(0);
+    }
+
+
+    /*
+    //los almacenamos para poder cerrarlos al final.
+    handles[n_handles] = handle;
+    n_handles++;*/
 
     return(0);
+}
+
+void descargarModulos(){
+    while(n_handles!=0){
+        dlclose(handles[n_handles]);
+        n_handles--;
+    }
 }
 
 
