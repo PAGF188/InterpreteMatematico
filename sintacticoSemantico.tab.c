@@ -409,16 +409,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   102
+#define YYLAST   100
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  24
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  27
+#define YYNRULES  28
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  48
+#define YYNSTATES  49
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -465,9 +465,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    57,    57,    58,    62,    63,    71,    72,    79,    91,
-      92,    96,   102,   103,   104,   105,   115,   116,   122,   134,
-     135,   136,   137,   138,   139,   148,   149,   150
+       0,    57,    57,    58,    62,    63,    71,    72,    85,    97,
+      98,    99,   108,   114,   115,   116,   117,   127,   128,   134,
+     146,   147,   148,   149,   150,   151,   160,   161,   162
 };
 #endif
 
@@ -508,11 +508,11 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -17,    25,   -17,   -15,   -17,    -7,   -14,   -17,    44,     4,
-       8,    21,   -17,    21,   -17,    75,   -17,    21,    21,   -17,
-     -17,   -17,    49,    82,    -6,     6,    -4,    57,    21,    21,
-      21,    21,    21,   -17,    82,    66,   -17,   -17,    82,   -17,
-     -17,   -17,   -16,   -16,    -4,    -4,    -4,   -17
+     -17,    26,   -17,   -15,   -17,    -7,   -14,   -17,    45,    10,
+      14,    22,   -17,    22,   -17,    73,   -17,    22,    22,   -17,
+     -17,   -17,   -17,    56,    80,    -1,    33,    23,    -4,    22,
+      22,    22,    22,    22,   -17,    80,    64,   -17,   -17,    80,
+     -17,   -17,   -17,   -16,   -16,    23,    23,    23,   -17
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -520,11 +520,11 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     0,     1,     0,    16,    18,     0,    20,     0,     0,
-       0,     0,     4,     0,     3,     0,     6,     0,     0,    13,
-      12,     7,     0,    11,     0,     0,    25,     0,     0,     0,
-       0,     0,     0,     5,    17,     0,    14,     8,    15,     9,
-      10,    27,    22,    21,    23,    24,    26,    19
+       2,     0,     1,     0,    17,    19,     0,    21,     0,     0,
+       0,     0,     4,     0,     3,     0,     6,     0,     0,    14,
+      13,    11,     7,     0,    12,     0,     0,    26,     0,     0,
+       0,     0,     0,     0,     5,    18,     0,    15,     8,    16,
+       9,    10,    28,    23,    22,    24,    25,    27,    20
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -536,7 +536,7 @@ static const yytype_int8 yypgoto[] =
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,    14,    22,    15
+      -1,     1,    14,    23,    15
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -544,32 +544,32 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      23,    30,    31,    26,    32,    27,    16,    17,    18,    34,
-      35,    24,    25,    40,    38,    39,    32,     0,     0,     0,
-      42,    43,    44,    45,    46,     2,     3,     4,     5,     6,
-       7,     4,     5,     6,     7,     8,    11,     9,    10,     0,
-      11,     0,     0,    13,     0,     0,    12,    13,    19,    20,
-       4,     5,     6,     7,    36,     4,     5,     6,     7,    11,
-       0,     0,     0,     0,    11,    21,    13,     0,     0,     0,
-      37,    13,    28,    29,    30,    31,     0,    32,     0,     0,
-      41,    28,    29,    30,    31,     0,    32,     0,     0,    47,
-      28,    29,    30,    31,     0,    32,    33,    28,    29,    30,
-      31,     0,    32
+      24,    31,    32,    27,    33,    28,    16,    17,    18,    35,
+      36,    29,    30,    31,    32,    39,    33,    25,    26,    42,
+      40,    43,    44,    45,    46,    47,     2,     3,     4,     5,
+       6,     7,     4,     5,     6,     7,     8,    11,     9,    10,
+      41,    11,     0,    33,    13,     0,     0,    12,    13,    19,
+      20,     4,     5,     6,     7,    21,     0,     0,     0,     0,
+      11,    37,     4,     5,     6,     7,    22,    13,     0,     0,
+       0,    11,     0,     0,     0,     0,     0,    38,    13,    29,
+      30,    31,    32,     0,    33,     0,     0,    48,    29,    30,
+      31,    32,     0,    33,    34,    29,    30,    31,    32,     0,
+      33
 };
 
 static const yytype_int8 yycheck[] =
 {
        8,    17,    18,    11,    20,    13,    21,    14,    22,    17,
-      18,     7,     4,     7,    22,    21,    20,    -1,    -1,    -1,
-      28,    29,    30,    31,    32,     0,     1,     6,     7,     8,
-       9,     6,     7,     8,     9,    10,    15,    12,    13,    -1,
-      15,    -1,    -1,    22,    -1,    -1,    21,    22,     4,     5,
-       6,     7,     8,     9,     5,     6,     7,     8,     9,    15,
-      -1,    -1,    -1,    -1,    15,    21,    22,    -1,    -1,    -1,
-      21,    22,    15,    16,    17,    18,    -1,    20,    -1,    -1,
-      23,    15,    16,    17,    18,    -1,    20,    -1,    -1,    23,
-      15,    16,    17,    18,    -1,    20,    21,    15,    16,    17,
-      18,    -1,    20
+      18,    15,    16,    17,    18,    23,    20,     7,     4,    23,
+      21,    29,    30,    31,    32,    33,     0,     1,     6,     7,
+       8,     9,     6,     7,     8,     9,    10,    15,    12,    13,
+       7,    15,    -1,    20,    22,    -1,    -1,    21,    22,     4,
+       5,     6,     7,     8,     9,    10,    -1,    -1,    -1,    -1,
+      15,     5,     6,     7,     8,     9,    21,    22,    -1,    -1,
+      -1,    15,    -1,    -1,    -1,    -1,    -1,    21,    22,    15,
+      16,    17,    18,    -1,    20,    -1,    -1,    23,    15,    16,
+      17,    18,    -1,    20,    21,    15,    16,    17,    18,    -1,
+      20
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -578,25 +578,25 @@ static const yytype_uint8 yystos[] =
 {
        0,    25,     0,     1,     6,     7,     8,     9,    10,    12,
       13,    15,    21,    22,    26,    28,    21,    14,    22,     4,
-       5,    21,    27,    28,     7,     4,    28,    28,    15,    16,
-      17,    18,    20,    21,    28,    28,     5,    21,    28,    21,
-       7,    23,    28,    28,    28,    28,    28,    23
+       5,    10,    21,    27,    28,     7,     4,    28,    28,    15,
+      16,    17,    18,    20,    21,    28,    28,     5,    21,    28,
+      21,     7,    23,    28,    28,    28,    28,    28,    23
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
        0,    24,    25,    25,    26,    26,    26,    26,    26,    26,
-      26,    27,    27,    27,    27,    27,    28,    28,    28,    28,
-      28,    28,    28,    28,    28,    28,    28,    28
+      26,    26,    27,    27,    27,    27,    27,    28,    28,    28,
+      28,    28,    28,    28,    28,    28,    28,    28,    28
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     0,     2,     1,     2,     2,     2,     3,     3,
-       3,     1,     1,     1,     2,     2,     1,     3,     1,     4,
-       1,     3,     3,     3,     3,     2,     3,     3
+       3,     2,     1,     1,     1,     2,     2,     1,     3,     1,
+       4,     1,     3,     3,     3,     3,     2,     3,     3
 };
 
 
@@ -1295,16 +1295,22 @@ yyreduce:
 #line 72 "sintacticoSemantico.y" /* yacc.c:1646  */
     { 
                                     /*si no son print load o include*/
-                                    if(strcmp("print", (yyvsp[-1].elementoTS)->lexema)!=0 && strcmp("load", (yyvsp[-1].elementoTS)->lexema)!=0)
-                                        (yyvsp[-1].elementoTS)->value.funcion_ptr(); 
+                                    if(strcmp("print", (yyvsp[-1].elementoTS)->lexema)!=0 && strcmp("load", (yyvsp[-1].elementoTS)->lexema)!=0){
+                                        if(strcmp("?", (yyvsp[-1].elementoTS)->lexema)==0){
+                                            (yyvsp[-1].elementoTS)->value.funcion_ptr("vacio"); 
+                                        }
+                                        else{
+                                            (yyvsp[-1].elementoTS)->value.funcion_ptr(); 
+                                        }
+                                    }
                                     if(mode==0)    
                                         nuevaLinea();
                                 }
-#line 1304 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1310 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 79 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 85 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
                                     /*esta derivación solo es valida con los comandos: print, load */
                                     if(strcmp("print", (yyvsp[-2].elementoTS)->lexema)==0 || strcmp("load", (yyvsp[-2].elementoTS)->lexema)==0){
@@ -1317,52 +1323,63 @@ yyreduce:
                                         YYERROR;
                                     }
                                 }
-#line 1321 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 9:
-#line 91 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyvsp[-2].elementoTS)->value.funcion_ptr((yyvsp[-1].elementoTS));}
 #line 1327 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
-  case 10:
-#line 92 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyvsp[-2].elementoTS)->value.funcion_ptr((yyvsp[-1]._string), (yyvsp[0].elementoTS)->lexema);}
+  case 9:
+#line 97 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyvsp[-2].elementoTS)->value.funcion_ptr((yyvsp[-1].elementoTS));}
 #line 1333 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
+  case 10:
+#line 98 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyvsp[-2].elementoTS)->value.funcion_ptr((yyvsp[-1]._string), (yyvsp[0].elementoTS)->lexema);}
+#line 1339 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+    break;
+
   case 11:
-#line 96 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 99 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {  /*derivacion para ayuda especifica*/
+                                if(strcmp("?", (yyvsp[0].elementoTS)->lexema)==0)
+                                    (yyvsp[0].elementoTS)->value.funcion_ptr((yyvsp[-1].elementoTS)->lexema);
+                                if(mode==0)    
+                                        nuevaLinea();
+                            }
+#line 1350 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 12:
+#line 108 "sintacticoSemantico.y" /* yacc.c:1646  */
     {   
                                     /*cast double to char* */
                                     char* _s = (char *)malloc(sizeof(char)*1000); /*definimos un tamaño maximo*/
 	                                sprintf(_s,"%.10g",(yyvsp[0]._double));
                                     (yyval._string) = _s;
                                 }
-#line 1344 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 12:
-#line 102 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyval._string)=(yyvsp[0]._string);}
-#line 1350 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1361 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 103 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 114 "sintacticoSemantico.y" /* yacc.c:1646  */
     {(yyval._string)=(yyvsp[0]._string);}
-#line 1356 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1367 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 104 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyval._string)=strcat((yyvsp[-1]._string),(yyvsp[0]._string)); free((yyvsp[0]._string));}
-#line 1362 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 115 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyval._string)=(yyvsp[0]._string);}
+#line 1373 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 105 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 116 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyval._string)=strcat((yyvsp[-1]._string),(yyvsp[0]._string)); free((yyvsp[0]._string));}
+#line 1379 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 16:
+#line 117 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
                                     /*cast double to char* y concatenación con textoImprimir*/
                                     char* _s = (char *)malloc(sizeof(char)*1000); /*definimos un tamaño maximo*/
@@ -1370,28 +1387,28 @@ yyreduce:
                                     (yyval._string)=strcat((yyvsp[-1]._string),_s);
                                     free(_s);
                                 }
-#line 1374 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 16:
-#line 115 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyval._double)=(yyvsp[0]._double);}
-#line 1380 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1391 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 116 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 127 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyval._double)=(yyvsp[0]._double);}
+#line 1397 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 18:
+#line 128 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
                                     /*Notar que al lado izquierdo de la expresión SOLO puede aparecer
                                     una variable. NUNCA una constante o un número*/
                                     modificar((yyvsp[-2].elementoTS), (yyvsp[0]._double));
                                     (yyval._double)=(yyvsp[0]._double);
                                 }
-#line 1391 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1408 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
-  case 18:
-#line 122 "sintacticoSemantico.y" /* yacc.c:1646  */
+  case 19:
+#line 134 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
                                     /*Una expresión NUNCA podrá derivar en una variable si esta
                                     no está inicializada. Error*/
@@ -1404,41 +1421,41 @@ yyreduce:
                                     }
                                     (yyval._double) = (yyvsp[0].elementoTS)->value.var;
                                 }
-#line 1408 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 19:
-#line 134 "sintacticoSemantico.y" /* yacc.c:1646  */
-    { (yyval._double) = (yyvsp[-3].elementoTS)->value.funcion_ptr((yyvsp[-1]._double));}
-#line 1414 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1425 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 135 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyval._double) = (yyvsp[0].elementoTS)->value.var;}
-#line 1420 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 146 "sintacticoSemantico.y" /* yacc.c:1646  */
+    { (yyval._double) = (yyvsp[-3].elementoTS)->value.funcion_ptr((yyvsp[-1]._double));}
+#line 1431 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 136 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyval._double) = (yyvsp[-2]._double) + (yyvsp[0]._double);}
-#line 1426 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 147 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyval._double) = (yyvsp[0].elementoTS)->value.var;}
+#line 1437 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 137 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyval._double) = (yyvsp[-2]._double) - (yyvsp[0]._double);}
-#line 1432 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 148 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyval._double) = (yyvsp[-2]._double) + (yyvsp[0]._double);}
+#line 1443 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 138 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyval._double) = (yyvsp[-2]._double) * (yyvsp[0]._double);}
-#line 1438 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 149 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyval._double) = (yyvsp[-2]._double) - (yyvsp[0]._double);}
+#line 1449 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 139 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 150 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyval._double) = (yyvsp[-2]._double) * (yyvsp[0]._double);}
+#line 1455 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 25:
+#line 151 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
                                     /*Error al intentar dividir entre 0*/
                                     if((yyvsp[0]._double)==0){
@@ -1448,29 +1465,29 @@ yyreduce:
                                     }
                                     (yyval._double) = (yyvsp[-2]._double) / (yyvsp[0]._double);
                                 }
-#line 1452 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 25:
-#line 148 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyval._double)=-(yyvsp[0]._double);}
-#line 1458 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1469 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 149 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyval._double) = pow((yyvsp[-2]._double),(yyvsp[0]._double));}
-#line 1464 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 160 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyval._double)=-(yyvsp[0]._double);}
+#line 1475 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 150 "sintacticoSemantico.y" /* yacc.c:1646  */
+#line 161 "sintacticoSemantico.y" /* yacc.c:1646  */
+    {(yyval._double) = pow((yyvsp[-2]._double),(yyvsp[0]._double));}
+#line 1481 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 28:
+#line 162 "sintacticoSemantico.y" /* yacc.c:1646  */
     {(yyval._double)=(yyvsp[-1]._double);}
-#line 1470 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1487 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1474 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
+#line 1491 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1698,7 +1715,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 153 "sintacticoSemantico.y" /* yacc.c:1906  */
+#line 165 "sintacticoSemantico.y" /* yacc.c:1906  */
 
 
 //DEFINICIONES AL INICIO DEL ARCHIVO

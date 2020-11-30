@@ -71,8 +71,14 @@ linea:
         | error '\n'            {yyerrok;}
         | _COMANDO '\n'         { 
                                     /*si no son print load o include*/
-                                    if(strcmp("print", $1->lexema)!=0 && strcmp("load", $1->lexema)!=0)
-                                        $1->value.funcion_ptr(); 
+                                    if(strcmp("print", $1->lexema)!=0 && strcmp("load", $1->lexema)!=0){
+                                        if(strcmp("?", $1->lexema)==0){
+                                            $1->value.funcion_ptr("vacio"); 
+                                        }
+                                        else{
+                                            $1->value.funcion_ptr(); 
+                                        }
+                                    }
                                     if(mode==0)    
                                         nuevaLinea();
                                 }
@@ -90,6 +96,12 @@ linea:
                                 }
         | _DELETE _VAR '\n'     {$1->value.funcion_ptr($2);}
         | _INCLUDE _ARCHIVO _VAR     {$1->value.funcion_ptr($2, $3->lexema);}
+        | _COMANDO _COMANDO {  /*derivacion para ayuda especifica*/
+                                if(strcmp("?", $2->lexema)==0)
+                                    $2->value.funcion_ptr($1->lexema);
+                                if(mode==0)    
+                                        nuevaLinea();
+                            }
 ;
 
 argumento:      

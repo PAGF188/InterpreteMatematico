@@ -29,15 +29,74 @@ double salir(){
 
 //imprimir la ayuda general
 //caracteres:  ┌ ┐ ─ ┘ └ │
-double ayuda(){
-    printf("┌───────────────────────────────────────────────────┐\n");  
-    printf("│ - Expresiones: (valor <operando> valor)           │\n");
-    printf("│ - Asignaciones: variable = valor                  │\n");
-    printf("│ - Funciones: func()                               │\n");
-    printf("│ - Comandos: salir, workspace, echoon, echooff,    │\n");
-    printf("│             print, delete, load, include          │\n");
-    printf("│ - <comando> ? para acceder a su descripcion       │\n");
-    printf("└───────────────────────────────────────────────────┘\n");  
+double ayuda(char *tipo){
+    if(strcmp("vacio", tipo)==0 || strcmp("?", tipo)==0){
+        printf("┌───────────────────────────────────────────────────┐\n");  
+        printf("│ - Expresiones: (valor <operando> valor)           │\n");
+        printf("│ - Asignaciones: variable = valor                  │\n");
+        printf("│ - Funciones: func()                               │\n");
+        printf("│ - Comandos: salir, workspace, echoon, echooff,    │\n");
+        printf("│             print, delete, load, include          │\n");
+        printf("│ - <comando> ? para acceder a su descripcion       │\n");
+        printf("└───────────────────────────────────────────────────┘\n");  
+    }
+    else if(strcmp("salir", tipo)==0){
+        printf("┌───────────────────────────────────────────────────┐\n");  
+        printf("│ - Sintaxis: <salir>                               │\n");
+        printf("│ - Permite abandonar el interprete                 │\n");
+        printf("└───────────────────────────────────────────────────┘\n");  
+    }
+    else if(strcmp("workspace", tipo)==0){
+        printf("┌───────────────────────────────────────────────────┐\n");  
+        printf("│ - Sintaxis: <workspace>                           │\n");
+        printf("│ - Imprime pares id:valor para todas las variables │\n");
+        printf("│   definidas                                       │\n");
+        printf("└───────────────────────────────────────────────────┘\n"); 
+    }
+    else if(strcmp("echoon", tipo)==0){
+        printf("┌───────────────────────────────────────────────────┐\n");  
+        printf("│ - Sintaxis: <echoon>                              │\n");
+        printf("│ - Activa el modo echo. Impresion del resultado de │\n");
+        printf("│   las instrucciones ejecutadas                    │\n");
+        printf("└───────────────────────────────────────────────────┘\n"); 
+    }
+    else if(strcmp("echooff", tipo)==0){
+        printf("┌───────────────────────────────────────────────────┐\n");  
+        printf("│ - Sintaxis: <echooff>                             │\n");
+        printf("│ - Desactiva el modo echo. No se imprime el        │\n");
+        printf("│   resultado de las instrucciones ejecutadas.      │\n");
+        printf("│   print no se me afectado                         │\n");
+        printf("└───────────────────────────────────────────────────┘\n"); 
+    }
+    else if(strcmp("print", tipo)==0){
+        printf("┌───────────────────────────────────────────────────┐\n");  
+        printf("│ - Sintaxis: <print> <texto>                       │\n");
+        printf("│ - Imprime por pantalla el resultado de <texto>.   │\n");
+        printf("│   <texto> puede ser un string, una expresion      │\n");
+        printf("│   matematica o una variable.                      │\n");
+        printf("└───────────────────────────────────────────────────┘\n"); 
+    }
+    else if(strcmp("print", tipo)==0){
+        printf("┌───────────────────────────────────────────────────┐\n");  
+        printf("│ - Sintaxis: <delete> <var>                        │\n");
+        printf("│ - Elimina de la sesion actual la variable <var>   │\n");
+        printf("└───────────────────────────────────────────────────┘\n"); 
+    }
+    else if(strcmp("load", tipo)==0){
+        printf("┌───────────────────────────────────────────────────┐\n");  
+        printf("│ - Sintaxis: <load> <archivo>                      │\n");
+        printf("│ - Carga en la sesión actual el contenido de       │\n");
+        printf("│   <archivo>. <archivo> debe tener como terminacion│\n");
+        printf("│   .txt o .mat                                      │\n");
+        printf("└───────────────────────────────────────────────────┘\n"); 
+    }
+    else if(strcmp("include", tipo)==0){
+        printf("┌───────────────────────────────────────────────────┐\n");  
+        printf("│ - Sintaxis: <include> <archivo>.so,<funcion>      │\n");
+        printf("│ - Carga en la sesión actual la <funcion> de       │\n");
+        printf("│   <archivo>. <funcion> debe estar compilada.      │\n");
+        printf("└───────────────────────────────────────────────────┘\n"); 
+    }
     return(0);
 }
 
