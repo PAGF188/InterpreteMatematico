@@ -1,4 +1,3 @@
 a=100
 c=a+b
-workspace
 load archivo3.txt

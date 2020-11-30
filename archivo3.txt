@@ -1,2 +1,10 @@
-a=100
+a( //error sintactico
+g=34 + c^(3-1)
+aux = 3
+i=102/aux
+f=floor(g*i+PI/(cos(2)+exp(1))+e)  //PI y e son constantes
 
+/*inclusion de libreria propia*/
+include ./libreria_propia.so factorial
+print "f antes de sumar factorial de 4: " f
+f=f+factorial(4)

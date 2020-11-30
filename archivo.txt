@@ -1,9 +1,9 @@
 a=3
 b=a+3
 2+2
-f
-print "el valor de a es: " a
-workspace
-//load archivo2.txt
-include ./libreria_propia.so factorial
+f  //error f no inicializada
+/*imprimimos el valor de a*/
+print "el valor de a es: " a*(3-b)
+load archivo2.txt
+print "resultado de f despues:" f
 

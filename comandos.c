@@ -57,7 +57,7 @@ double ayuda(char *tipo){
         printf("│ - Sintaxis: <echooff>                             │\n");
         printf("│ - Desactiva el modo echo. No se imprime el        │\n");
         printf("│   resultado de las instrucciones ejecutadas.      │\n");
-        printf("│   print no se me afectado                         │\n");
+        printf("│   print no se ve afectado                         │\n");
         printf("└───────────────────────────────────────────────────┘\n"); 
     }
     else if(strcmp("print", tipo)==0){
@@ -235,7 +235,7 @@ double include(char *path, char *func){
     //Primero eliminar
     eliminar(aux);
     insertarReservados(aux);
-
+    if(mode==0) nuevaLinea();
     return(0);
 }
 

@@ -94,7 +94,7 @@ linea:
                                         }
                                     }
         | _DELETE _VAR '\n'         {$1->value.funcion_ptr($2);}
-        | _INCLUDE _ARCHIVO _VAR    {$1->value.funcion_ptr($2, $3->lexema); if(mode==0) nuevaLinea();}
+        | _INCLUDE _ARCHIVO _VAR    {$1->value.funcion_ptr($2, $3->lexema);}
         | _COMANDO _COMANDO         {  
                                         /*derivacion para ayuda especifica*/
                                         if(strcmp("?", $2->lexema)==0) $2->value.funcion_ptr($1->lexema);

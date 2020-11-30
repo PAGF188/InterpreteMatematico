@@ -1336,7 +1336,7 @@ yyreduce:
 
   case 10:
 #line 97 "sintacticoSemantico.y" /* yacc.c:1646  */
-    {(yyvsp[-2].elementoTS)->value.funcion_ptr((yyvsp[-1]._string), (yyvsp[0].elementoTS)->lexema); if(mode==0) nuevaLinea();}
+    {(yyvsp[-2].elementoTS)->value.funcion_ptr((yyvsp[-1]._string), (yyvsp[0].elementoTS)->lexema);}
 #line 1341 "sintacticoSemantico.tab.c" /* yacc.c:1646  */
     break;
 
