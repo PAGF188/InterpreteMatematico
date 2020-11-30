@@ -76,7 +76,7 @@ double ayuda(char *tipo){
         printf("│   matematica o una variable.                      │\n");
         printf("└───────────────────────────────────────────────────┘\n"); 
     }
-    else if(strcmp("print", tipo)==0){
+    else if(strcmp("delete", tipo)==0){
         printf("┌───────────────────────────────────────────────────┐\n");  
         printf("│ - Sintaxis: <delete> <var>                        │\n");
         printf("│ - Elimina de la sesion actual la variable <var>   │\n");

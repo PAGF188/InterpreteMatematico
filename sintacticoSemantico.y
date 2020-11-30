@@ -102,6 +102,10 @@ linea:
                                 if(mode==0)    
                                         nuevaLinea();
                             }
+        | _DELETE _COMANDO {if(strcmp("?", $2->lexema)==0) $2->value.funcion_ptr($1->lexema);
+                                if(mode==0) nuevaLinea();}
+        | _INCLUDE _COMANDO {if(strcmp("?", $2->lexema)==0)$2->value.funcion_ptr($1->lexema);
+                                if(mode==0) nuevaLinea();}
 ;
 
 argumento:      
