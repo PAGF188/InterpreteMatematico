@@ -22,17 +22,19 @@ typedef struct {
 
 //Para mostrar de forma bonita el inicio del programa.
 //Inicamos la existencia de la funcion ayuda (?)
+//caracteres:  ┌ ┐ ─ ┘ └ │
 void presentacion(){
     printf("\n");
-    printf("\x1b[34m _   _   _  ___  ___  _   _   _  ___  _   __   _  \n");
-    printf("\x1b[31m| \\_/ | / \\|_ _|| __|| \\_/ | / \\|_ _|| | / _| / \\ \n");
-    printf("\x1b[31m| \\_/ || o || | | _| | \\_/ || o || | | |( (_ | o | \n");
-    printf("\x1b[34m|_| |_||_n_||_| |___||_| |_||_n_||_| |_| \\__||_n_| \n");
-    printf("\x1b[0m===================================================\n");  
-    printf("\x1b[34m             REALIZA TUS OPERACIONES\n");  
-    printf("\x1b[0m===================================================\n\n"); 
-    printf("\x1b[0m[Ejecuta ? para la ayuda general]\n");
-    printf("[<funcion>? para consultar la definición de <funcion>]\n\n");
+    printf("\x1b[34m  _   _   _  ___  ___  _   _   _  ___  _   __   _  \n");
+    printf("\x1b[31m | \\_/ | / \\|_ _|| __|| \\_/ | / \\|_ _|| | / _| / \\ \n");
+    printf("\x1b[31m | \\_/ || o || | | _| | \\_/ || o || | | |( (_ | o | \n");
+    printf("\x1b[34m |_| |_||_n_||_| |___||_| |_||_n_||_| |_| \\__||_n_| \n");
+    printf("\x1b[0m┌───────────────────────────────────────────────────┐\n");  
+    printf("│\x1b[34m              REALIZA TUS OPERACIONES              \x1b[0m│\n");
+    printf("└───────────────────────────────────────────────────┘\n"); 
+    printf("┌───────────────────────────────────────────────────┐\n");  
+    printf("│          \x1b[0m[Ejecuta ? para la ayuda general]        │\n");
+    printf("└───────────────────────────────────────────────────┘\n\n");
     printf("In [1]:  ");
 }
 

@@ -28,8 +28,16 @@ double salir(){
 }
 
 //imprimir la ayuda general
+//caracteres:  ┌ ┐ ─ ┘ └ │
 double ayuda(){
-    printf("Aqui irá la ayuda\n");
+    printf("┌───────────────────────────────────────────────────┐\n");  
+    printf("│ - Expresiones: (valor <operando> valor)           │\n");
+    printf("│ - Asignaciones: variable = valor                  │\n");
+    printf("│ - Funciones: func()                               │\n");
+    printf("│ - Comandos: salir, workspace, echoon, echooff,    │\n");
+    printf("│             print, delete, load, include          │\n");
+    printf("│ - <comando> ? para acceder a su descripcion       │\n");
+    printf("└───────────────────────────────────────────────────┘\n");  
     return(0);
 }
 
@@ -186,7 +194,6 @@ double include(char *path, char *func){
 
     //imprimimos GUI
     nuevaLinea();
-    //free(subpath);
     return(0);
 }
 

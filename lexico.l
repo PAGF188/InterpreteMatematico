@@ -138,6 +138,10 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
         /*desechamos línea*/
         char c;
         while((c = input()) !='\n');
+        if(mode==0){
+            printf("─────────────────────────────────────────────────────\n\n");
+            printf("In [%d]:  ", yylineno);
+        }
     }
 
 <<EOF>> {   
@@ -154,7 +158,7 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
                 if(include_stack_ptr==0){
                     mode=0;
                     yylineno = 1;
-                    printf("____________________________________________________________\n\n");
+                    printf("─────────────────────────────────────────────────────\n\n");
                     printf("In [%d]:  ", yylineno);
                 }
             }

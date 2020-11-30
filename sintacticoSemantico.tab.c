@@ -1306,7 +1306,7 @@ yyreduce:
   case 8:
 #line 79 "sintacticoSemantico.y" /* yacc.c:1646  */
     {
-                                    /*esta derivación solo es valida con los comandos: print, load e include */
+                                    /*esta derivación solo es valida con los comandos: print, load */
                                     if(strcmp("print", (yyvsp[-2].elementoTS)->lexema)==0 || strcmp("load", (yyvsp[-2].elementoTS)->lexema)==0){
                                         (yyvsp[-2].elementoTS)->value.funcion_ptr((yyvsp[-1]._string));
                                         free((yyvsp[-1]._string));
@@ -1704,7 +1704,7 @@ yyreturn:
 //DEFINICIONES AL INICIO DEL ARCHIVO
 
 void nuevaLinea(){
-    printf("____________________________________________________________\n\n");
+    printf("─────────────────────────────────────────────────────\n\n");
     printf("In [%d]:  ", yylineno);
 }
 

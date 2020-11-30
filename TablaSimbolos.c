@@ -230,10 +230,6 @@ void destruir_arbol(abb *A) {
 	}
 }
 
-
-//Las dos siguientes permiten eliminar un nodo concreto del árbol.
-//Sin embargo, en esta práctica no se usan. Quedan hechas por si se necesitan en la siguiente.
-
 void suprimir(abb *A, tipoelem E) {
     abb aux;
     if(es_vacio(*A)){

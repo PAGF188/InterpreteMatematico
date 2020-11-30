@@ -77,7 +77,7 @@ linea:
                                         nuevaLinea();
                                 }
         | _COMANDO argumento '\n' {
-                                    /*esta derivación solo es valida con los comandos: print, load e include */
+                                    /*esta derivación solo es valida con los comandos: print, load */
                                     if(strcmp("print", $1->lexema)==0 || strcmp("load", $1->lexema)==0){
                                         $1->value.funcion_ptr($2);
                                         free($2);
@@ -155,7 +155,7 @@ exp:
 //DEFINICIONES AL INICIO DEL ARCHIVO
 
 void nuevaLinea(){
-    printf("____________________________________________________________\n\n");
+    printf("─────────────────────────────────────────────────────\n\n");
     printf("In [%d]:  ", yylineno);
 }
 

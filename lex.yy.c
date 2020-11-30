@@ -1101,10 +1101,14 @@ YY_RULE_SETUP
         /*desechamos línea*/
         char c;
         while((c = input()) !='\n');
+        if(mode==0){
+            printf("─────────────────────────────────────────────────────\n\n");
+            printf("In [%d]:  ", yylineno);
+        }
     }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 143 "lexico.l"
+#line 147 "lexico.l"
 {   
             /*en principio aqui nunca se debería entrar porque en include_stack el primer
             puntero referencia a stdin (la entrada por teclado). Solo al insertar control+d*/
@@ -1119,7 +1123,7 @@ case YY_STATE_EOF(INITIAL):
                 if(include_stack_ptr==0){
                     mode=0;
                     yylineno = 1;
-                    printf("____________________________________________________________\n\n");
+                    printf("─────────────────────────────────────────────────────\n\n");
                     printf("In [%d]:  ", yylineno);
                 }
             }
@@ -1127,10 +1131,10 @@ case YY_STATE_EOF(INITIAL):
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 163 "lexico.l"
+#line 167 "lexico.l"
 ECHO;
 	YY_BREAK
-#line 1134 "lex.yy.c"
+#line 1138 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2141,6 +2145,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 163 "lexico.l"
+#line 167 "lexico.l"
 
 
