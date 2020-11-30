@@ -129,7 +129,5 @@ int main(int argc, char *argv[]){
     //////// nota: normalmente esto se hará desde la función salir().
     //destruimos TS
     destruirTablaSimbolos();
-    //Destruimos los módulos cargados dinámicamente
-    descargarModulos();
     return(0);
 }

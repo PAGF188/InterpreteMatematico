@@ -4,6 +4,6 @@ b=a+3
 f
 print "el valor de a es: " a
 workspace
-load archivo2.txt
-
+//load archivo2.txt
+include ./libreria_propia.so factorial
 

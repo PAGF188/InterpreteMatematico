@@ -3,20 +3,10 @@
 #include "sintacticoSemantico.tab.c"
 #include "./headerFiles/TablaSimbolos.h"
 
-#define MAX_L 100    //tamaño máximo de modulos cargados simultaneamente.
-#define MAX_TAM_LINEA 1024   //tamaño máximo de línea leída.
-
-//Datos para almacenar los handlers de las bibliotecas abiertas con dlopen().
-//y poder cerrarlas al terminar ejecución.
-void *handles[MAX_L];
-int n_handles=0;
-//Puntero al módulo que estamos leyendo
-FILE *fp;
 
 /////// FUNCIONES PRIVADAS
 //Recorre los handles y los cierra
 void descargarModulos();
-
 
 /////////COMANDOS DEL INTÉRPRETE. 
 //El valor de retorno se ignora. Se hizo asi para poder aprovechar el mismo campo que para funciones.
@@ -24,7 +14,6 @@ void descargarModulos();
 //// SALIR
 double salir(){
     destruirTablaSimbolos();
-    descargarModulos();
     exit(0);
 }
 
@@ -211,20 +200,13 @@ double cargar(char *path){
             yylineno=0;
         }
     }
+    echo=1;
     return(0);
 }
 
 //include
 //include archivo.so, funcion
 double include(char *path, char *func){
-
-    //Si llegamos al máximo de librerias cargadas -> error
-    char *_error;
-    if(n_handles>=MAX_L-1){
-        codigoError = 16;
-        yyerror("");
-        return(0);
-    }
 
     void *handle;   //manejador de la biblioteca
     //intentamos cargar en memoria  la biblioteca compilada
@@ -241,6 +223,7 @@ double include(char *path, char *func){
     aux.componenteLexico = _FUNCION;
     aux.value.funcion_ptr = dlsym(handle, func);   //la cargamos
     //chequeamos error durante la carga
+    char *_error;
     if((_error = dlerror()) != NULL){
         codigoError = 15;
         yyerror(_error);
@@ -252,21 +235,7 @@ double include(char *path, char *func){
     //Primero eliminar
     eliminar(aux);
     insertarReservados(aux);
-    imprimirArbol();
 
-    //almacenamos manejador para poder cerrarlo al final.
-    handles[n_handles] = handle;
-    n_handles++;
-
-    //imprimimos GUI
-    nuevaLinea();
     return(0);
-}
-
-void descargarModulos(){
-    while(n_handles!=0){
-        dlclose(handles[n_handles]);
-        n_handles--;
-    }
 }
 

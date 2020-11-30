@@ -33,7 +33,6 @@ int echo = 1;
 }
 
 /*TERMINALES*/
-%token <_string>    _MODULO
 %token <_string>    _ARCHIVO    //path
 %token <_string>    _STRING
 %token <_double>    _NUM
@@ -62,52 +61,53 @@ input:  /*vacio*/
 
 linea: 
         '\n'
-        | exp '\n'              {   /*mode=0, estamos leyendo datos de teclado. Mostrar interfaz gráfica*/
-                                    if(mode==0){
-                                        if(echo)
-                                            printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);
-                                        nuevaLinea(); 
+        | exp '\n'                  {   /*mode=0, estamos leyendo datos de teclado. Mostrar interfaz gráfica*/
+                                        if(mode==0){
+                                            if(echo) printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);
+                                            nuevaLinea(); 
+                                        }
+                                        /*printf("\n");imprimirArbol();*/
                                     }
-                                    /*printf("\n");imprimirArbol();*/
-                                }
-        | error '\n'            {yyerrok;}
-        | _COMANDO '\n'         { 
-                                    /*si no son print load o include -> estos requieren argumentos*/
-                                    if(strcmp("print", $1->lexema)!=0 && strcmp("load", $1->lexema)!=0){
-                                        if(strcmp("?", $1->lexema)==0){
-                                            $1->value.funcion_ptr("vacio"); 
+        | error '\n'                {yyerrok;}
+        | _COMANDO '\n'             {    
+                                        /*si no son print load o include -> estos requieren argumentos*/
+                                        if(strcmp("print", $1->lexema)!=0 && strcmp("load", $1->lexema)!=0){
+                                            if(strcmp("?", $1->lexema)==0){
+                                                $1->value.funcion_ptr("vacio"); 
+                                            }
+                                            else{
+                                                $1->value.funcion_ptr(); 
+                                            }
+                                        }
+                                        if(mode==0) nuevaLinea();
+                                    }
+        | _COMANDO argumento '\n'   {
+                                        /*esta derivación solo es valida con los comandos: print, load */
+                                        if(strcmp("print", $1->lexema)==0 || strcmp("load", $1->lexema)==0){
+                                            $1->value.funcion_ptr($2);
+                                            free($2);
                                         }
                                         else{
-                                            $1->value.funcion_ptr(); 
+                                            codigoError = 13;
+                                            yyerror($1->lexema);
+                                            YYERROR;
                                         }
                                     }
-                                    if(mode==0)    
-                                        nuevaLinea();
-                                }
-        | _COMANDO argumento '\n' {
-                                    /*esta derivación solo es valida con los comandos: print, load */
-                                    if(strcmp("print", $1->lexema)==0 || strcmp("load", $1->lexema)==0){
-                                        $1->value.funcion_ptr($2);
-                                        free($2);
+        | _DELETE _VAR '\n'         {$1->value.funcion_ptr($2);}
+        | _INCLUDE _ARCHIVO _VAR    {$1->value.funcion_ptr($2, $3->lexema); if(mode==0) nuevaLinea();}
+        | _COMANDO _COMANDO         {  
+                                        /*derivacion para ayuda especifica*/
+                                        if(strcmp("?", $2->lexema)==0) $2->value.funcion_ptr($1->lexema);
+                                        if(mode==0) nuevaLinea();
                                     }
-                                    else{
-                                        codigoError = 13;
-                                        yyerror($1->lexema);
-                                        YYERROR;
+        | _DELETE _COMANDO          {   /*Para ayuda de delete*/
+                                        if(strcmp("?", $2->lexema)==0) $2->value.funcion_ptr($1->lexema);
+                                        if(mode==0) nuevaLinea();
                                     }
-                                }
-        | _DELETE _VAR '\n'     {$1->value.funcion_ptr($2);}
-        | _INCLUDE _ARCHIVO _VAR     {$1->value.funcion_ptr($2, $3->lexema);}
-        | _COMANDO _COMANDO {  /*derivacion para ayuda especifica*/
-                                if(strcmp("?", $2->lexema)==0)
-                                    $2->value.funcion_ptr($1->lexema);
-                                if(mode==0)    
-                                        nuevaLinea();
-                            }
-        | _DELETE _COMANDO {if(strcmp("?", $2->lexema)==0) $2->value.funcion_ptr($1->lexema);
-                                if(mode==0) nuevaLinea();}
-        | _INCLUDE _COMANDO {if(strcmp("?", $2->lexema)==0)$2->value.funcion_ptr($1->lexema);
-                                if(mode==0) nuevaLinea();}
+        | _INCLUDE _COMANDO         {   /*Para ayuda de include*/
+                                        if(strcmp("?", $2->lexema)==0)$2->value.funcion_ptr($1->lexema);
+                                        if(mode==0) nuevaLinea();
+                                    }
 ;
 
 argumento:      
