@@ -11,12 +11,11 @@
 /*Declaramos las funciones para evitar los warning por implicit_declaration*/
 //para imprimir la salida tipificada
 void nuevaLinea();  
-//para imprimir la información de ayuda general.
-void ayudaGeneral();
 //funcion de error
 void yyerror(char *s);
 
 /*para hacerselo visible a la función de gestión de errores*/
+/*Lo ajusta al valor correspondiente el flujo gramatical*/
 int codigoError=-1;   
 
 /*Si echo=0, no mostrar dialogo de resultado.
@@ -25,11 +24,12 @@ int codigoError=-1;
 int echo = 1;
 %}
 
+//tipos de datos que tendrán los tokens (TERMINALES)
 %union {
     char * _string;
     double _double;
     int _int;
-    tipoelem *elementoTS;   /*Puntero a un elemento de la tabla de símbolos (constante, variable, funcion)*/
+    tipoelem *elementoTS;   /*Puntero a un elemento de la tabla de símbolos (constante, variable, comando,funcion)*/
 }
 
 /*TERMINALES*/
@@ -39,8 +39,10 @@ int echo = 1;
 %token <_double>    _NUM
 %token <elementoTS> _VAR _FUNCION _CONST _COMANDO 
 %token <_int>       _EOF 
-/*el comando delete se trata por separado para poder diferenciar entre print a, en donde imprimimos
-el contenido de la variable a. Y delete a, en donde la eliminamos */
+/*
+- El comando <delete> se trata por separado para poder diferenciar entre print a, en donde imprimimos
+  el contenido de la variable a. Y delete a, en donde la eliminamos.
+- El comando <include> por tener dos argumentos*/
 %token <elementoTS> _DELETE _INCLUDE
 %right '='
 %left '-' '+'
@@ -48,7 +50,7 @@ el contenido de la variable a. Y delete a, en donde la eliminamos */
 %left NEG
 %right '^'
 
-/*NO TERMINALES*/
+/*NO TERMINALES explícitos*/
 %type <_double> exp
 %type <_string> argumento
 
@@ -60,7 +62,7 @@ input:  /*vacio*/
 
 linea: 
         '\n'
-        | exp '\n'              {   /*mdoe=0, estamos leyendo datos de teclado. Mostrar interfaz gráfica*/
+        | exp '\n'              {   /*mode=0, estamos leyendo datos de teclado. Mostrar interfaz gráfica*/
                                     if(mode==0){
                                         if(echo)
                                             printf("\x1b[32mOut[%d]: %.10g\n\x1b[0m", yylineno-1,$1);
@@ -70,7 +72,7 @@ linea:
                                 }
         | error '\n'            {yyerrok;}
         | _COMANDO '\n'         { 
-                                    /*si no son print load o include*/
+                                    /*si no son print load o include -> estos requieren argumentos*/
                                     if(strcmp("print", $1->lexema)!=0 && strcmp("load", $1->lexema)!=0){
                                         if(strcmp("?", $1->lexema)==0){
                                             $1->value.funcion_ptr("vacio"); 
@@ -182,7 +184,7 @@ void yyerror(char *s){
     if(mode==0){
         printf("Out[%d]: ", yylineno-1);
     }
-    //Si el error es sintáctico/semántico
+    //Si el error es sintáctico
     if(codigoError==-1){
         if(mode==1)
             printf("\t(linea %d) ", yylineno);

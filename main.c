@@ -4,7 +4,7 @@
  * Objetivos:
  *       - Inicialización del intéprete.
  *       - Inicialización de la tabla de símbolos.
- *       - Invocación del analizador sintático/semántico.
+ *       - Invocación del analizador.
  */
 #include <stdio.h>
 #include "./headerFiles/TablaSimbolos.h"
@@ -14,13 +14,13 @@
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862
 #define E 2.71828182845904523536028747135266249775724709369995957496696762772407663035354
 
-/*Tipo de dato para encapsular la infocmación de los comandos que es estática*/
+/*Tipo de dato para encapsular funciones y comandos antes de insertarlos en TS (estáticos)*/
 typedef struct {
     char * nombre;
     double (* funcion_ptr)();   //puntero a la función a ejecutar (o comando)
 }comandos;
 
-//Para mostrar de forma bonita el inicio del programa.
+//Para mostrar de forma "bonita" el inicio del programa.
 //Inicamos la existencia de la funcion ayuda (?)
 //caracteres:  ┌ ┐ ─ ┘ └ │
 void presentacion(){
@@ -39,11 +39,11 @@ void presentacion(){
 }
 
 /**
- * Crea las constantes y funciones para insertar de base en la TS
+ * Inserción de constantes, comandos y funciones estáticas en TS.
  */
 void cargarElementosIniciales(){
 
-    //constantes
+    //////// CONSTANTES
     char * const_nombres[2] = {"e", "PI"};    
     double const_valores[2] = {E,PI};   
     for(int i=0; i<sizeof(const_valores)/sizeof(const_valores[0]); i++){
@@ -54,7 +54,7 @@ void cargarElementosIniciales(){
         insertarReservados(e);
     }
 
-    //comandos
+    ///////// COMANDOS
     comandos _comandos[] = {
         {"salir", salir},
         {"?", ayuda},
@@ -72,15 +72,17 @@ void cargarElementosIniciales(){
         tipoelem aux;
         aux.lexema = _comandos[i].nombre;
         aux.componenteLexico = _COMANDO;
+        //El comando <delete> tiene un componenteLexico particular.
         if(strcmp("delete", aux.lexema)==0)
             aux.componenteLexico = _DELETE;
+        //El comando <include> tiene un componenteLexico particular.
         else if(strcmp("include", aux.lexema)==0)
             aux.componenteLexico = _INCLUDE;
         aux.value.funcion_ptr = _comandos[i].funcion_ptr;
         insertarReservados(aux);
     }
 
-    //FUNCIONES ESTÁTICAS
+    /////// FUNCIONES ESTÁTICAS
     comandos _funciones[] = {
         {"acos",  acos},
         {"asin",  asin},
@@ -118,13 +120,16 @@ int main(int argc, char *argv[]){
     cargarElementosIniciales();
     //imprimirArbol();
     
+    //Inicializamos GUI
     presentacion();
+
     //Invocamos al analizador sintáctico
     yyparse();
-    //nota recoger los casos de error y finalización correcta
-    destruirTablaSimbolos();
 
-    //dlclose()
+    //////// nota: normalmente esto se hará desde la función salir().
+    //destruimos TS
+    destruirTablaSimbolos();
+    //Destruimos los módulos cargados dinámicamente
     descargarModulos();
     return(0);
 }

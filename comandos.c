@@ -10,26 +10,28 @@
 //y poder cerrarlas al terminar ejecución.
 void *handles[MAX_L];
 int n_handles=0;
-
 //Puntero al módulo que estamos leyendo
 FILE *fp;
 
-//funciones privadas
+/////// FUNCIONES PRIVADAS
+//Recorre los handles y los cierra
 void descargarModulos();
-char* siguienteNombreFuncion();
 
-//COMANDOS DEL INTÉRPRETE. El valor de retorno se ignora.
-//Se hizo asi para poder aprovechar el mismo campo que para funciones.
-//salir limpiando memoria.
+
+/////////COMANDOS DEL INTÉRPRETE. 
+//El valor de retorno se ignora. Se hizo asi para poder aprovechar el mismo campo que para funciones.
+
+//// SALIR
 double salir(){
     destruirTablaSimbolos();
     descargarModulos();
     exit(0);
 }
 
-//imprimir la ayuda general
+//imprimir la ayuda (general y especifica en función del valor pasado como argumento).
 //caracteres:  ┌ ┐ ─ ┘ └ │
 double ayuda(char *tipo){
+    //ayuda general.
     if(strcmp("vacio", tipo)==0 || strcmp("?", tipo)==0){
         printf("┌───────────────────────────────────────────────────┐\n");  
         printf("│ - Expresiones: (valor <operando> valor)           │\n");
@@ -40,6 +42,7 @@ double ayuda(char *tipo){
         printf("│ - <comando> ? para acceder a su descripcion       │\n");
         printf("└───────────────────────────────────────────────────┘\n");  
     }
+    //el resto son casos especificos para comandos
     else if(strcmp("salir", tipo)==0){
         printf("┌───────────────────────────────────────────────────┐\n");  
         printf("│ - Sintaxis: <salir>                               │\n");
@@ -152,7 +155,7 @@ double print(char *s){
 
 }
 
-//eliminar un elemento (normalmente variable) de la TS.
+//eliminar uan variable de la TS.
 double delete(tipoelem *elemento){
     //si no es miembro, imprimimos advertencia.
     if(!esMiembro(elemento->lexema)){
@@ -161,7 +164,7 @@ double delete(tipoelem *elemento){
     }else{
         nuevaLinea();
     }
-    //como el lexico inserta preinserta siempre la VAR en la TS, la borramos.
+    //como el lexico preinserta siempre la VAR en la TS, la borramos.
     eliminar(*elemento);
     free(elemento);
     return(0);
@@ -186,8 +189,11 @@ double cargar(char *path){
         salir();
     }
     else{
+        //almacenamos el buffer actual en la pila (para poder recuperarlo después)
         include_stack[include_stack_ptr++] = YY_CURRENT_BUFFER;
+        //abrimos el archivo a cargar y se lo pasamos a léxico.
         yyin = fopen(path, "r");
+        //si falla, deshacemos los cambios hechos en la pila
         if(!yyin){
             if(--include_stack_ptr<0){
                 yyterminate();
@@ -196,6 +202,7 @@ double cargar(char *path){
                 yy_delete_buffer(YY_CURRENT_BUFFER);
                 yy_switch_to_buffer(include_stack[include_stack_ptr]);
             }
+        //si la lectura funciona iniciamos en análisis del nuevo buffer.
         }else{
             yy_switch_to_buffer(yy_create_buffer(yyin, YY_BUF_SIZE));
             BEGIN(INITIAL);
@@ -208,7 +215,7 @@ double cargar(char *path){
 }
 
 //include
-//Formato de path-> <path>, <funcion>
+//include archivo.so, funcion
 double include(char *path, char *func){
 
     //Si llegamos al máximo de librerias cargadas -> error
@@ -223,12 +230,12 @@ double include(char *path, char *func){
     //intentamos cargar en memoria  la biblioteca compilada
     handle = dlopen(path, RTLD_LAZY);
     if(!handle){
+        //si falle -> error
         codigoError = 15;
         yyerror((char *)dlerror());
         return(0);
     }
-
-    
+    //si tenemos éxito cargamos la función y almacenamos su referencia en la TS
     tipoelem aux;
     aux.lexema = func;
     aux.componenteLexico = _FUNCION;

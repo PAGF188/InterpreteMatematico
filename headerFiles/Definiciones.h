@@ -70,7 +70,7 @@ union YYSTYPE
     char * _string;
     double _double;
     int _int;
-    tipoelem *elementoTS;   /*Puntero a un elemento de la tabla de símbolos (constante, variable, funcion)*/
+    tipoelem *elementoTS;   /*Puntero a un elemento de la tabla de símbolos (constante, variable, comando,funcion)*/
 
 #line 76 "sintacticoSemantico.tab.h" /* yacc.c:1909  */
 };

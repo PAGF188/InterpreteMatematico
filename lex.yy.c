@@ -640,7 +640,7 @@ int mode=0;
 
 /*PATRONES PARA ENTEROS. Se aceptan sufijos.*/
 /*PATRONES PARA FLOTANTES. Se aceptan sufijos. Se acepta notación científica.*/
-/*IDENTIFICADORES (variables, constantes o funciones)*/
+/*IDENTIFICADORES (variables, constantes, comandos o funciones)*/
 /*SOLO SE CONTEMPLA: DoubleQuotedString:*/
 /*archivo: PATH*/
 /*MODULO*/
@@ -1111,10 +1111,12 @@ case YY_STATE_EOF(INITIAL):
 #line 147 "lexico.l"
 {   
             /*en principio aqui nunca se debería entrar porque en include_stack el primer
-            puntero referencia a stdin (la entrada por teclado). Solo al insertar control+d*/
+            puntero referencia a stdin (la entrada por teclado).*/
             if(--include_stack_ptr<0){
                 yyterminate();
             }  
+            // si se llego a un EOF, se elimina de la pila el archivo que se terminó de analizar
+            // y se procede a analizar el siguiente elemento de la pila (teclado en caso de que no existan más).
             else{
                 yy_delete_buffer(YY_CURRENT_BUFFER);
                 yy_switch_to_buffer(include_stack[include_stack_ptr]);
@@ -1131,10 +1133,10 @@ case YY_STATE_EOF(INITIAL):
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 167 "lexico.l"
+#line 169 "lexico.l"
 ECHO;
 	YY_BREAK
-#line 1138 "lex.yy.c"
+#line 1140 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2145,6 +2147,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 167 "lexico.l"
+#line 169 "lexico.l"
 
 

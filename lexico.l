@@ -36,7 +36,7 @@ DECIMAL_INTEGER     [0-9][0-9_]*
 FLOAT               ({INTEGER}".")|({INTEGER}"."{INTEGER})|({INTEGER}"."{INTEGER}{DECIMAL_EXPONENT})|("."{INTEGER})|("."{INTEGER}{DECIMAL_EXPONENT})|({INTEGER}{DECIMAL_EXPONENT})
 DECIMAL_EXPONENT    ((e\+)|(E\+)|(e-)|(E-)|(e)|(E))(_?[0-9][0-9_]*)
 
-/*IDENTIFICADORES (variables, constantes o funciones)*/
+/*IDENTIFICADORES (variables, constantes, comandos o funciones)*/
 IDENTIFICADOR       [_A-Za-z][A-Za-z0-9_]*|\?
 
 /*SOLO SE CONTEMPLA: DoubleQuotedString:*/
@@ -146,10 +146,12 @@ TERMINACIONES_INCORRECTAS_FI        [A-EgGhHjJkKm-tM-Tv-zV-Z]|[&|!\[{]
 
 <<EOF>> {   
             /*en principio aqui nunca se debería entrar porque en include_stack el primer
-            puntero referencia a stdin (la entrada por teclado). Solo al insertar control+d*/
+            puntero referencia a stdin (la entrada por teclado).*/
             if(--include_stack_ptr<0){
                 yyterminate();
             }  
+            // si se llego a un EOF, se elimina de la pila el archivo que se terminó de analizar
+            // y se procede a analizar el siguiente elemento de la pila (teclado en caso de que no existan más).
             else{
                 yy_delete_buffer(YY_CURRENT_BUFFER);
                 yy_switch_to_buffer(include_stack[include_stack_ptr]);
